@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "431675550543",
+    "project_id": "nasvazi",
+    "storage_bucket": "nasvazi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431675550543:android:8ff07dedb24d5ae636733a",
+        "android_client_info": {
+          "package_name": "com.ru.alferatz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "431675550543-7k55obgibojdosic3j4j6m6u4d4l8232.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ru.alferatz",
+            "certificate_hash": "94be8a5c9a98bb0e1d1410d19d6dfa0438996ee8"
+          }
+        },
+        {
+          "client_id": "431675550543-463n6btuqfikhs9bs20hg6lh63n5tdvc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrEXiB1R1ReC19SjK1hw_885q0KH4XFUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "431675550543-463n6btuqfikhs9bs20hg6lh63n5tdvc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
