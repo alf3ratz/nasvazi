@@ -12,7 +12,7 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.ru.alferatz.databinding.FragmentFirstBinding
+import com.ru.alferatz.databinding.FragmentAuthBinding
 import java.util.concurrent.TimeUnit
 
 /**
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
  */
 class AuthFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentAuthBinding? = null
     private lateinit var auth: FirebaseAuth
 
 
@@ -80,7 +80,7 @@ class AuthFragment : Fragment() {
                 resendToken = token
             }
         }
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentAuthBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -91,7 +91,7 @@ class AuthFragment : Fragment() {
         updateUI(currentUser)
         binding.buttonFirst.setOnClickListener {
             //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-            startPhoneNumberVerification("+79164765968")
+            startPhoneNumberVerification(binding.inputPhoneNumber.text.toString())
         }
     }
 
