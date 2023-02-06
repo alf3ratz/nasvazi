@@ -1,11 +1,14 @@
 package com.ru.alferatz
 
+import android.os.Build.VERSION_CODES.S
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.BundleCompat
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
@@ -78,6 +81,8 @@ class AuthFragment : Fragment() {
                 // Save verification ID and resending token so we can use them later
                 storedVerificationId = verificationId
                 resendToken = token
+                val bundle = bundleOf("verificationId" to storedVerificationId)
+                findNavController().navigate(R.id.action_AuthFragment_to_confirmFragment,bundle )
             }
         }
         _binding = FragmentAuthBinding.inflate(inflater, container, false)
@@ -89,9 +94,11 @@ class AuthFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val currentUser = auth.currentUser
         updateUI(currentUser)
-        binding.buttonFirst.setOnClickListener {
+        binding.buttonSend.setOnClickListener {
             //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
             startPhoneNumberVerification(binding.inputPhoneNumber.text.toString())
+//            val bundle = bundleOf("verificationId" to storedVerificationId)
+//            findNavController().navigate(R.id.action_AuthFragment_to_confirmFragment,bundle )
         }
     }
 
@@ -101,7 +108,6 @@ class AuthFragment : Fragment() {
     }
 
     private fun startPhoneNumberVerification(phoneNumber: String) {
-        // [START start_phone_auth]
         val options = PhoneAuthOptions.newBuilder(auth)
             .setPhoneNumber(phoneNumber)       // Phone number to verify
             .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
@@ -109,14 +115,13 @@ class AuthFragment : Fragment() {
             .setCallbacks(callbacks)          // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
-        // [END start_phone_auth]
     }
 
-    private fun verifyPhoneNumberWithCode(verificationId: String?, code: String) {
-        // [START verify_with_code]
-        val credential = PhoneAuthProvider.getCredential(verificationId!!, code)
-        // [END verify_with_code]
-    }
+//    private fun verifyPhoneNumberWithCode(verificationId: String?, code: String): PhoneAuthCredential{
+//        // [START verify_with_code]
+//        return PhoneAuthProvider.getCredential(verificationId!!, code)
+//        // [END verify_with_code]
+//    }
 
     // [START resend_verification]
     private fun resendVerificationCode(

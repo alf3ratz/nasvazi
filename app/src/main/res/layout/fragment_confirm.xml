@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AuthFragment">
+    tools:context=".ConfirmFragment">
 
     <TextView
         android:id="@+id/textview_first"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/auth_fragment"
+        android:text="@string/confirm_fragment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/input_layout"
@@ -27,14 +26,14 @@
         app:layout_constraintTop_toBottomOf="@id/textview_first">
 
         <EditText
-            android:id="@+id/input_phone_number"
+            android:id="@+id/input_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Введите номер телефона"
+            android:hint="Введите код"
             android:inputType="phone" />
 
         <Button
-            android:id="@+id/button_send"
+            android:id="@+id/button_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_send"

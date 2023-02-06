@@ -1,6 +1,7 @@
 package com.ru.alferatz
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -29,7 +30,8 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        if(checkCurrentUser()){
+        if(isCurrentUserSignedOut()){
+            Log.i("auth_user","da")
             navController.navigate(R.id.AuthFragment)
         }
 
@@ -62,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 || super.onSupportNavigateUp()
     }
 
-    private fun checkCurrentUser(): Boolean {
+    private fun isCurrentUserSignedOut(): Boolean {
         val user = Firebase.auth.currentUser
         return user == null
     }

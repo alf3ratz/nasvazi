@@ -12,17 +12,26 @@
         tools:layout="@layout/fragment_auth">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/MainFragment" />
+            android:id="@+id/action_AuthFragment_to_confirmFragment"
+            app:destination="@id/confirmFragment" />
+        <argument
+            android:name="verificationId"
+            app:argType="string"
+            android:defaultValue="" />
     </fragment>
     <fragment
         android:id="@+id/MainFragment"
         android:name="com.ru.alferatz.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
-
+    </fragment>
+    <fragment
+        android:id="@+id/confirmFragment"
+        android:name="com.ru.alferatz.ConfirmFragment"
+        android:label="fragment_confirm"
+        tools:layout="@layout/fragment_confirm" >
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/AuthFragment" />
+            android:id="@+id/action_confirmFragment_to_MainFragment"
+            app:destination="@id/MainFragment" />
     </fragment>
 </navigation>
