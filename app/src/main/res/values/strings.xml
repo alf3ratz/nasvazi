@@ -6,6 +6,9 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="main">Главная</string>
+    <string name="request">Заявки</string>
+    <string name="info">Информация</string>
 
     <string name="auth_fragment">Auth with phone</string>
     <string name="confirm_fragment">Confirm sms code</string>

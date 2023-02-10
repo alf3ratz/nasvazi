@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/AuthFragment"
-        android:name="com.ru.alferatz.AuthFragment"
+        android:name="com.ru.alferatz.ui.fragment.AuthFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_auth">
 
@@ -21,13 +21,13 @@
     </fragment>
     <fragment
         android:id="@+id/MainFragment"
-        android:name="com.ru.alferatz.SecondFragment"
+        android:name="com.ru.alferatz.ui.fragment.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
     </fragment>
     <fragment
         android:id="@+id/confirmFragment"
-        android:name="com.ru.alferatz.ConfirmFragment"
+        android:name="com.ru.alferatz.ui.fragment.ConfirmFragment"
         android:label="fragment_confirm"
         tools:layout="@layout/fragment_confirm" >
         <action

@@ -1,4 +1,4 @@
-package com.ru.alferatz
+package com.ru.alferatz.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

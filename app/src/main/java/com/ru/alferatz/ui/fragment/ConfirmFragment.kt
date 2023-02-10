@@ -1,5 +1,6 @@
-package com.ru.alferatz
+package com.ru.alferatz.ui.fragment
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -15,7 +15,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.ru.alferatz.databinding.FragmentAuthBinding
+import com.ru.alferatz.R
 import com.ru.alferatz.databinding.FragmentConfirmBinding
 
 
@@ -60,6 +60,11 @@ class ConfirmFragment : Fragment() {
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
                     val user = task.result?.user
+                    val appSettingPrefs: SharedPreferences = this.requireActivity()
+                        .getSharedPreferences("AppSettingPrefs", 0)
+                    val sharedPrefsEdit: SharedPreferences.Editor = appSettingPrefs.edit()
+                    sharedPrefsEdit.putBoolean("signIn", true)
+                    sharedPrefsEdit.apply()
                     findNavController().navigate(R.id.action_confirmFragment_to_MainFragment)
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)

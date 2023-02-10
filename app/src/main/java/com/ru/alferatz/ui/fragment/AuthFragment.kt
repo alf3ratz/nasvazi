@@ -1,13 +1,12 @@
-package com.ru.alferatz
+package com.ru.alferatz.ui.fragment
 
-import android.os.Build.VERSION_CODES.S
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.BundleCompat
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.FirebaseException
@@ -15,6 +14,7 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.ru.alferatz.R
 import com.ru.alferatz.databinding.FragmentAuthBinding
 import java.util.concurrent.TimeUnit
 
@@ -32,6 +32,7 @@ class AuthFragment : Fragment() {
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
     private val binding get() = _binding!!
+
     companion object {
         private const val TAG = "AuthFragment"
     }
@@ -45,19 +46,11 @@ class AuthFragment : Fragment() {
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                // This callback will be invoked in two situations:
-                // 1 - Instant verification. In some cases the phone number can be instantly
-                //     verified without needing to send or enter a verification code.
-                // 2 - Auto-retrieval. On some devices Google Play services can automatically
-                //     detect the incoming verification SMS and perform verification without
-                //     user action.
                 Log.d(TAG, "onVerificationCompleted:$credential")
                 signInWithPhoneAuthCredential(credential)
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-                // This callback is invoked in an invalid request for verification is made,
-                // for instance if the the phone number format is not valid.
                 Log.w(TAG, "onVerificationFailed", e)
 
                 if (e is FirebaseAuthInvalidCredentialsException) {
@@ -82,7 +75,7 @@ class AuthFragment : Fragment() {
                 storedVerificationId = verificationId
                 resendToken = token
                 val bundle = bundleOf("verificationId" to storedVerificationId)
-                findNavController().navigate(R.id.action_AuthFragment_to_confirmFragment,bundle )
+                findNavController().navigate(R.id.action_AuthFragment_to_confirmFragment, bundle)
             }
         }
         _binding = FragmentAuthBinding.inflate(inflater, container, false)
@@ -95,10 +88,15 @@ class AuthFragment : Fragment() {
         val currentUser = auth.currentUser
         updateUI(currentUser)
         binding.buttonSend.setOnClickListener {
-            //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-            startPhoneNumberVerification(binding.inputPhoneNumber.text.toString())
-//            val bundle = bundleOf("verificationId" to storedVerificationId)
-//            findNavController().navigate(R.id.action_AuthFragment_to_confirmFragment,bundle )
+            var phoneNumber = binding.inputPhoneNumber.text.toString()
+            if (phoneNumber.length == 11 && phoneNumber.startsWith("8")) {
+                phoneNumber = phoneNumber.replaceFirst("8", "+7")
+            } else if ((phoneNumber.length != 12) && phoneNumber.startsWith("+7")
+                || (phoneNumber.length != 11) && phoneNumber.startsWith("8")
+            ) {
+                Toast.makeText(context, "Неправильный формат номера", Toast.LENGTH_LONG).show()
+            }
+            startPhoneNumberVerification(phoneNumber)
         }
     }
 
