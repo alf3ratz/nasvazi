@@ -19,37 +19,37 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ru.alferatz.R
-import com.ru.alferatz.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+   // private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //FirebaseApp.initializeApp(this)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        //setSupportActionBar(binding.toolbar)
-
-//        val navController = findNavController(R.id.nav_host_fragment_content_main)
-//        appBarConfiguration = AppBarConfiguration(navController.graph)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-
+//        binding = ActivityMainBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_fragment_content_main
         ) as NavHostFragment
         navController = navHostFragment.navController
-        if (isCurrentUserSignedOut()) {
-            Log.i("auth_user", "da")
-            navController.navigate(R.id.AuthFragment)
-        }
-        // Setup the bottom navigation view with navController
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNavigationView.setupWithNavController(navController)
+//        appBarConfiguration = AppBarConfiguration(
+//            setOf(R.id.titleScreen, R.id.leaderboard, R.id.register)
+//        )
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        (this as AppCompatActivity).supportActionBar?.title = "dasdsad"
+        //setSupportActionBar(binding.toolbar)
+
+//        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        //appBarConfiguration = AppBarConfiguration(navController.graph)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+
 
 
 //        binding.fab.setOnClickListener { view ->
@@ -59,6 +59,13 @@ class MainActivity : AppCompatActivity() {
 //        }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (isCurrentUserSignedOut()) {
+            Log.i("auth_user", "da")
+            navController.navigate(R.id.AuthFragment)
+        }
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -76,9 +83,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+//        val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+                //|| super.onSupportNavigateUp()
     }
 
     private fun isCurrentUserSignedOut(): Boolean {
@@ -87,4 +94,5 @@ class MainActivity : AppCompatActivity() {
         val appSettingPrefs: SharedPreferences = getSharedPreferences("AppSettingPrefs", 0)
         return !appSettingPrefs.getBoolean("signIn", false)
     }
+
 }

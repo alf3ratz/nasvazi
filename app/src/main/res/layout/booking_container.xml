@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <data>
+
+        <variable
+            name="bookingInfo"
+            type="com.ru.alferatz.model.entity.BookingEntity" />
+
+        <variable
+            name="tableInfo"
+            type="com.ru.alferatz.model.entity.TableEntity" />
+
+        <variable
+            name="bookingStatus"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/container_background"
+        android:padding="@dimen/_10sdp"
+        android:paddingTop="@dimen/_18sdp"
+        tools:ignore="RtlSymmetry">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/table_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.5"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/booking_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/ubuntu_regular"
+            android:padding="@dimen/_4sdp"
+            android:text="@{bookingStatus}"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/table_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/ubuntu_regular"
+            android:padding="@dimen/_4sdp"
+            android:text="@{'№'+bookingInfo.tableId}"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/capacity_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:paddingTop="@dimen/_4sdp"
+            android:src="@drawable/ic_people_outline"
+            android:tintMode="multiply"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/table_people_count"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/table_people_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:fontFamily="@font/ubuntu_regular"
+            android:padding="@dimen/_4sdp"
+            android:text="@{tableInfo.capacity}"
+            android:textColor="@color/black"
+            app:layout_constraintBaseline_toBottomOf="@id/capacity_icon"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

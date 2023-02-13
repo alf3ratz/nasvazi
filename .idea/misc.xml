@@ -3,13 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/drawable/container_background.xml" value="0.164" />
         <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/drawable/ic_home.xml" value="0.164" />
         <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/drawable/ic_send.xml" value="0.164" />
         <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/layout/activity_main.xml" value="0.23007246376811594" />
+        <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/layout/booking_container.xml" value="0.23007246376811594" />
         <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/layout/content_main.xml" value="0.23007246376811594" />
         <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/layout/fragment_auth.xml" value="0.23007246376811594" />
         <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/layout/fragment_confirm.xml" value="0.15885416666666666" />
+        <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/layout/fragment_current_booking.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/layout/fragment_first.xml" value="0.23007246376811594" />
+        <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/layout/fragment_info.xml" value="0.23007246376811594" />
+        <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/layout/fragment_main.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/layout/fragment_second.xml" value="0.23007246376811594" />
         <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/menu/menu_bottom_nav.xml" value="0.253125" />
         <entry key="..\:/Users/User1337/AndroidStudioProjects/nasvazi/app/src/main/res/menu/menu_main.xml" value="0.25416666666666665" />
