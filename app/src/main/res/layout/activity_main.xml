@@ -6,9 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.activity.MainActivity">
-    <androidx.appcompat.widget.Toolbar>
-
-    </androidx.appcompat.widget.Toolbar>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
     <!--    <include layout="@layout/content_main" />-->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment_content_main"

@@ -11,6 +11,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.fragment.NavHostFragment
@@ -23,7 +24,7 @@ import com.ru.alferatz.R
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-   // private lateinit var binding: ActivityMainBinding
+ //  private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         //FirebaseApp.initializeApp(this)
 //        binding = ActivityMainBinding.inflate(layoutInflater)
 //        setContentView(binding.root)
+
         setContentView(R.layout.activity_main)
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_fragment_content_main
@@ -42,9 +44,11 @@ class MainActivity : AppCompatActivity() {
 //            setOf(R.id.titleScreen, R.id.leaderboard, R.id.register)
 //        )
         appBarConfiguration = AppBarConfiguration(navController.graph)
+        setSupportActionBar(findViewById(R.id.main_toolbar))
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         (this as AppCompatActivity).supportActionBar?.title = "dasdsad"
-        //setSupportActionBar(binding.toolbar)
+
 
 //        val navController = findNavController(R.id.nav_host_fragment_content_main)
         //appBarConfiguration = AppBarConfiguration(navController.graph)

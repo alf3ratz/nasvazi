@@ -2,6 +2,8 @@ package com.ru.alferatz.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ru.alferatz.R
@@ -9,13 +11,22 @@ import com.ru.alferatz.databinding.BookingContainerBinding
 import com.ru.alferatz.listener.BookingListener
 import com.ru.alferatz.model.entity.BookingEntity
 
-class BookingAdapter(events_: List<BookingEntity>, eventsListener_: BookingListener) :
+class BookingAdapter(bookings_: List<BookingEntity>, bookingListener_: BookingListener) :
     RecyclerView.Adapter<BookingAdapter.BookingViewHolder>() {
 
-    private var events: List<BookingEntity> = events_
+    private var bookings: List<BookingEntity> = bookings_
     private var layoutInflater: LayoutInflater? = null
-    var eventsListener: BookingListener = eventsListener_
-
+    var bookingListener: BookingListener = bookingListener_
+    private val listOfTableImages = listOf(
+        R.drawable.ic_table_1,
+        R.drawable.ic_table_2,
+        R.drawable.ic_table_3,
+        R.drawable.ic_table_4,
+        R.drawable.ic_table_5,
+        R.drawable.ic_table_7,
+        R.drawable.ic_table_8,
+        R.drawable.ic_table_9
+    )
     inner class BookingViewHolder(itemLayoutBinding: BookingContainerBinding) :
         RecyclerView.ViewHolder(itemLayoutBinding.root) {
         private var itemLayoutBinding: BookingContainerBinding? = null
@@ -24,12 +35,14 @@ class BookingAdapter(events_: List<BookingEntity>, eventsListener_: BookingListe
             this.itemLayoutBinding = itemLayoutBinding
         }
 
-        fun bindEvent(event: BookingEntity) {
-            itemLayoutBinding?.bookingInfo = event
+        fun bindBooking(bookingEntity: BookingEntity) {
+            //itemLayoutBinding?.bookingInfo = bookingEntity
+//            itemLayoutBinding?.root.
+//            itemLayoutBinding?.tableId = bookingEntity.tableId
             itemLayoutBinding?.executePendingBindings()
             if (itemLayoutBinding?.root != null)
                 itemView.setOnClickListener {
-                    eventsListener.onEventClicked(event)
+                    bookingListener.onEventClicked(bookingEntity)
                 }
         }
     }
@@ -37,19 +50,24 @@ class BookingAdapter(events_: List<BookingEntity>, eventsListener_: BookingListe
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookingViewHolder {
         if (layoutInflater == null)
             layoutInflater = LayoutInflater.from(parent.context)
-        val eventBinding: BookingContainerBinding =
+        val bookingBinding: BookingContainerBinding =
             DataBindingUtil.inflate(layoutInflater!!, R.layout.booking_container, parent, false)
-        val bookingViewHolder = BookingViewHolder(eventBinding)
-        //bookingViewHolder.itemView
+        val bookingViewHolder = BookingViewHolder(bookingBinding)
         return bookingViewHolder
     }
 
     override fun onBindViewHolder(holder: BookingViewHolder, position: Int) {
-        holder.bindEvent(events[position])
+        holder.bindBooking(bookings[position])
+        holder .itemView.findViewById<ImageView>(R.id.table_image)
+            .setImageResource(listOfTableImages[position % listOfTableImages.size])
+        holder.itemView.findViewById<TextView>(R.id.table_number)
+            .text= bookings[position].tableId.toString()
+        holder.itemView.findViewById<TextView>(R.id.table_people_count)
+            .text= bookings[position].tableId.toString()
     }
 
     override fun getItemCount(): Int {
-        return events.size
+        return bookings.size
     }
 }
 

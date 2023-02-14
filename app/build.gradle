@@ -14,10 +14,10 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    buildToolsVersion '30.0.3'
     buildTypes {
         release {
             minifyEnabled false
@@ -32,11 +32,17 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        viewBinding true
+        dataBinding true
+       // viewBinding true
+    }
+    dataBinding {
+        enabled = true
     }
     buildscript {
         repositories {
             google()
+            jcenter()
+            maven { url "https://jitpack.io" }
             mavenCentral()
         }
         dependencies {
@@ -46,9 +52,8 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
@@ -76,4 +81,10 @@ dependencies {
 
     //Rounded Image View
     implementation 'com.makeramen:roundedimageview:2.3.0'
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation "androidx.multidex:multidex:2.0.1"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+
 }

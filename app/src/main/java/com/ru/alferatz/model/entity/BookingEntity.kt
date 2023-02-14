@@ -3,7 +3,7 @@ package com.ru.alferatz.model.entity
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.annotations.SerializedName
-import com.ru.alferatz.enum.BookingStatus
+import com.ru.alferatz.enums.BookingStatus
 import java.time.LocalDateTime
 
 class BookingEntity {

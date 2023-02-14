@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragment.ConfirmFragment">
+<layout>
 
-    <TextView
-        android:id="@+id/textview_first"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/confirm_fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.ConfirmFragment">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/input_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview_first">
-
-        <EditText
-            android:id="@+id/input_code"
+        <TextView
+            android:id="@+id/textview_first"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Введите код"
-            android:inputType="phone" />
-
-        <Button
-            android:id="@+id/button_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableEnd="@drawable/ic_send"
-            app:layout_constraintBottom_toBottomOf="@id/input_phone_number"
+            android:text="@string/confirm_fragment"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/input_phone_number"
-            app:layout_constraintTop_toTopOf="@id/input_phone_number" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/input_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview_first">
+
+            <EditText
+                android:id="@+id/input_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Введите код"
+                android:inputType="phone" />
+
+            <Button
+                android:id="@+id/button_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_send"
+                app:layout_constraintBottom_toBottomOf="@id/input_phone_number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/input_phone_number"
+                app:layout_constraintTop_toTopOf="@id/input_phone_number" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
