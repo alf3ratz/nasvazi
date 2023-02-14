@@ -26,6 +26,7 @@ class BookingFragment : Fragment(), BookingListener {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
     companion object {
         const val BOOKING_KEY = "showBookingPage"
     }
@@ -34,14 +35,24 @@ class BookingFragment : Fragment(), BookingListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var booking = BookingEntity()
-        booking.id=1L
-        booking.tableId=1L
-        booking.participants=3L
+        var booking1 = BookingEntity()
+        booking1.id = 1L
+        booking1.tableId = 1L
+        booking1.participants = 3L
 
-        bookingEntityList = arrayListOf(booking)
+        var booking2 = BookingEntity()
+        booking2.id = 2L
+        booking2.tableId = 2L
+        booking2.participants = 4L
+
+        var booking3 = BookingEntity()
+        booking3.id = 3L
+        booking3.tableId = 3L
+        booking3.participants = 5L
+
+        bookingEntityList = arrayListOf(booking1, booking2, booking3)
         _binding = FragmentBookingBinding.inflate(inflater, container, false)
-        bookingAdapter = BookingAdapter(bookingEntityList, this)
+        bookingAdapter = BookingAdapter(bookingEntityList, this, requireContext())
         _binding!!.weatherRecyclerView.run {
             setHasFixedSize(true)
             adapter = bookingAdapter
@@ -65,7 +76,10 @@ class BookingFragment : Fragment(), BookingListener {
     override fun onEventClicked(booking: BookingEntity) {
         binding.weatherRecyclerView.setOnClickListener {
             val bundle = bundleOf(BOOKING_KEY to "check")
-            findNavController().navigate(R.id.action_bookingFragment_to_currentBookingFragment2, bundle)
+            findNavController().navigate(
+                R.id.action_bookingFragment_to_currentBookingFragment2,
+                bundle
+            )
         }
 //        binding.weatherRecyclerView.findNavController().navigate(R.id.action_bookingFragment_to_currentBookingFragment2, bund)
 //        holder.item.setOnClickListener {

@@ -1,9 +1,12 @@
 package com.ru.alferatz.adapter
 
+import android.content.Context
+import android.text.method.TextKeyListener.clear
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ru.alferatz.R
@@ -11,21 +14,22 @@ import com.ru.alferatz.databinding.BookingContainerBinding
 import com.ru.alferatz.listener.BookingListener
 import com.ru.alferatz.model.entity.BookingEntity
 
-class BookingAdapter(bookings_: List<BookingEntity>, bookingListener_: BookingListener) :
+class BookingAdapter(bookings_: List<BookingEntity>, bookingListener_: BookingListener, context_: Context) :
     RecyclerView.Adapter<BookingAdapter.BookingViewHolder>() {
 
     private var bookings: List<BookingEntity> = bookings_
     private var layoutInflater: LayoutInflater? = null
     var bookingListener: BookingListener = bookingListener_
+    var context: Context = context_
     private val listOfTableImages = listOf(
-        R.drawable.ic_table_1,
-        R.drawable.ic_table_2,
-        R.drawable.ic_table_3,
-        R.drawable.ic_table_4,
-        R.drawable.ic_table_5,
-        R.drawable.ic_table_7,
-        R.drawable.ic_table_8,
-        R.drawable.ic_table_9
+        R.drawable.table_1,
+        R.drawable.table_2,
+        R.drawable.table_3,
+        R.drawable.table_4,
+        R.drawable.table_5,
+        R.drawable.table_7,
+        R.drawable.table_8,
+        R.drawable.table_9
     )
     inner class BookingViewHolder(itemLayoutBinding: BookingContainerBinding) :
         RecyclerView.ViewHolder(itemLayoutBinding.root) {
@@ -59,7 +63,9 @@ class BookingAdapter(bookings_: List<BookingEntity>, bookingListener_: BookingLi
     override fun onBindViewHolder(holder: BookingViewHolder, position: Int) {
         holder.bindBooking(bookings[position])
         holder .itemView.findViewById<ImageView>(R.id.table_image)
-            .setImageResource(listOfTableImages[position % listOfTableImages.size])
+            .background= ContextCompat.getDrawable(context, listOfTableImages[position % listOfTableImages.size])
+            //setImageResource(listOfTableImages[position % listOfTableImages.size])
+
         holder.itemView.findViewById<TextView>(R.id.table_number)
             .text= bookings[position].tableId.toString()
         holder.itemView.findViewById<TextView>(R.id.table_people_count)
