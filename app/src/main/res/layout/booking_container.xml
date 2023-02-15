@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!--    <data>-->
 
@@ -15,15 +16,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_10sdp"
-        android:paddingTop="@dimen/_18sdp">
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:padding="@dimen/_10sdp">
 
         <View
             android:id="@+id/viewSupporter"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_5sdp"
+            android:layout_height="@dimen/_2sdp"
+            app:layout_constraintBaseline_toTopOf="@id/viewBackground"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
@@ -32,19 +34,37 @@
             android:layout_height="0dp"
             android:background="@drawable/container_background"
             android:paddingBottom="@dimen/_20sdp"
-            app:layout_constraintBottom_toBottomOf="@id/capacity_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/viewSupporter" />
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/table_image"
-            android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:alpha="0.5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:alpha="0.9"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/viewSupporter"
+            app:riv_border_width="@dimen/_2sdp"
+            app:riv_corner_radius="@dimen/_15sdp"/>
+
+        <ImageView
+            android:id="@+id/status_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:paddingStart="@dimen/_4sdp"
+            android:paddingTop="@dimen/_4sdp"
+            android:src="@drawable/status_indicator"
+            android:tintMode="multiply"
+            app:layout_constraintStart_toStartOf="@id/table_image"
+            app:layout_constraintTop_toTopOf="@id/table_image"
+            app:tint="@color/white"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/booking_status"
@@ -52,11 +72,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_2sdp"
             android:layout_marginTop="@dimen/_2sdp"
-            android:fontFamily="@font/ubuntu_regular"
+            android:fontFamily="@font/ubuntu_bold"
             android:padding="@dimen/_4sdp"
-            android:text=""
-            android:textColor="@color/black"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@id/status_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -65,9 +84,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_2sdp"
             android:layout_marginTop="@dimen/_2sdp"
-            android:fontFamily="@font/ubuntu_regular"
+            android:fontFamily="@font/ubuntu_bold"
             android:padding="@dimen/_4sdp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -82,7 +101,7 @@
             android:tintMode="multiply"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/table_people_count"
-            app:tint="@color/black" />
+            app:tint="@color/white" />
 
         <TextView
             android:id="@+id/table_people_count"
@@ -92,9 +111,9 @@
             android:layout_marginTop="@dimen/_2sdp"
             android:fontFamily="@font/ubuntu_regular"
             android:padding="@dimen/_4sdp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/capacity_icon" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

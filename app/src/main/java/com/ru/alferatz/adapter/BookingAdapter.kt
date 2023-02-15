@@ -1,20 +1,31 @@
 package com.ru.alferatz.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.text.method.TextKeyListener.clear
+import android.content.res.Resources
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.ru.alferatz.R
 import com.ru.alferatz.databinding.BookingContainerBinding
+import com.ru.alferatz.enums.BookingStatus
 import com.ru.alferatz.listener.BookingListener
 import com.ru.alferatz.model.entity.BookingEntity
 
-class BookingAdapter(bookings_: List<BookingEntity>, bookingListener_: BookingListener, context_: Context) :
+class BookingAdapter(
+    bookings_: List<BookingEntity>,
+    bookingListener_: BookingListener,
+    context_: Context
+) :
     RecyclerView.Adapter<BookingAdapter.BookingViewHolder>() {
 
     private var bookings: List<BookingEntity> = bookings_
@@ -31,6 +42,7 @@ class BookingAdapter(bookings_: List<BookingEntity>, bookingListener_: BookingLi
         R.drawable.table_8,
         R.drawable.table_9
     )
+
     inner class BookingViewHolder(itemLayoutBinding: BookingContainerBinding) :
         RecyclerView.ViewHolder(itemLayoutBinding.root) {
         private var itemLayoutBinding: BookingContainerBinding? = null
@@ -60,16 +72,34 @@ class BookingAdapter(bookings_: List<BookingEntity>, bookingListener_: BookingLi
         return bookingViewHolder
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: BookingViewHolder, position: Int) {
+        val pictureId = listOfTableImages[position % listOfTableImages.size]
+        val bookingStatus = bookings[position].status.description
         holder.bindBooking(bookings[position])
-        holder .itemView.findViewById<ImageView>(R.id.table_image)
-            .background= ContextCompat.getDrawable(context, listOfTableImages[position % listOfTableImages.size])
-            //setImageResource(listOfTableImages[position % listOfTableImages.size])
-
+        holder.itemView.findViewById<ImageView>(R.id.table_image)
+            .background =
+            ContextCompat.getDrawable(context, pictureId)
         holder.itemView.findViewById<TextView>(R.id.table_number)
-            .text= bookings[position].tableId.toString()
+            .text = "№${bookings[position].tableId}"
         holder.itemView.findViewById<TextView>(R.id.table_people_count)
-            .text= bookings[position].tableId.toString()
+            .text = bookings[position].tableId.toString()
+        holder.itemView.findViewById<TextView>(R.id.booking_status)
+            .text = bookingStatus
+        var statusIcon = holder.itemView.findViewById<ImageView>(R.id.status_icon)
+        when (bookingStatus) {
+            BookingStatus.CREATED.name -> statusIcon.setColorFilter(context.resources.getColor(R.color.color_green))
+            BookingStatus.CONFIRMED.name -> statusIcon.setColorFilter(context.resources.getColor(R.color.color_yellow))
+            BookingStatus.CANCELLED.name -> statusIcon.setColorFilter(context.resources.getColor(R.color.color_red))
+            else -> statusIcon.setColorFilter(context.resources.getColor(R.color.color_green))
+        }
+//        holder.itemView.setOnClickListener {
+//            val bundle = bundleOf("booking_adapter" to pictureId)
+//            context.findNavController().navigate(
+//                R.id.action_bookingFragment_to_currentBookingFragment2,
+//                bundle
+//            )
+//        }
     }
 
     override fun getItemCount(): Int {
