@@ -20,72 +20,38 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ru.alferatz.R
+import com.ru.alferatz.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
- //  private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //FirebaseApp.initializeApp(this)
-//        binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setContentView(R.layout.activity_main)
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_fragment_content_main
         ) as NavHostFragment
         navController = navHostFragment.navController
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomNavigationView.setupWithNavController(navController)
-//        appBarConfiguration = AppBarConfiguration(
-//            setOf(R.id.titleScreen, R.id.leaderboard, R.id.register)
-//        )
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setSupportActionBar(findViewById(R.id.main_toolbar))
-
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        (this as AppCompatActivity).supportActionBar?.title = "dasdsad"
-
-
-//        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        //appBarConfiguration = AppBarConfiguration(navController.graph)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-
-
-
-//        binding.fab.setOnClickListener { view ->
-//            Firebase.auth.signOut();
-//            Snackbar.make(view, "Signed out", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
+        setUpBottomNav()
     }
 
     override fun onStart() {
         super.onStart()
         if (isCurrentUserSignedOut()) {
             Log.i("auth_user", "da")
-            navController.navigate(R.id.AuthFragment)
-        }
-    }
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+            navController.navigate(R.id.action_MainFragment_to_AuthFragment)
         }
     }
 
+    private fun setUpBottomNav() {
+        val bottomNav = binding.bottomNav//findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNav.setupWithNavController(navController)
+    }
     override fun onSupportNavigateUp(): Boolean {
 //        val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
@@ -98,5 +64,7 @@ class MainActivity : AppCompatActivity() {
         val appSettingPrefs: SharedPreferences = getSharedPreferences("AppSettingPrefs", 0)
         return !appSettingPrefs.getBoolean("signIn", false)
     }
+
+
 
 }

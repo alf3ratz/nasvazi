@@ -1,8 +1,8 @@
 package com.ru.alferatz.adapter
 
-import android.annotation.SuppressLint
+
 import android.content.Context
-import android.content.res.Resources
+import android.icu.number.NumberFormatter.with
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,16 +10,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.ru.alferatz.R
 import com.ru.alferatz.databinding.BookingContainerBinding
 import com.ru.alferatz.enums.BookingStatus
 import com.ru.alferatz.listener.BookingListener
 import com.ru.alferatz.model.entity.BookingEntity
+
 
 class BookingAdapter(
     bookings_: List<BookingEntity>,
@@ -33,14 +33,14 @@ class BookingAdapter(
     var bookingListener: BookingListener = bookingListener_
     var context: Context = context_
     private val listOfTableImages = listOf(
-        R.drawable.table_1,
-        R.drawable.table_2,
-        R.drawable.table_3,
-        R.drawable.table_4,
-        R.drawable.table_5,
-        R.drawable.table_7,
-        R.drawable.table_8,
-        R.drawable.table_9
+        com.ru.alferatz.R.drawable.table_1,
+        com.ru.alferatz.R.drawable.table_2,
+        com.ru.alferatz.R.drawable.table_3,
+        com.ru.alferatz.R.drawable.table_4,
+        com.ru.alferatz.R.drawable.table_5,
+        com.ru.alferatz.R.drawable.table_7,
+        com.ru.alferatz.R.drawable.table_8,
+        com.ru.alferatz.R.drawable.table_9
     )
 
     inner class BookingViewHolder(itemLayoutBinding: BookingContainerBinding) :
@@ -67,7 +67,12 @@ class BookingAdapter(
         if (layoutInflater == null)
             layoutInflater = LayoutInflater.from(parent.context)
         val bookingBinding: BookingContainerBinding =
-            DataBindingUtil.inflate(layoutInflater!!, R.layout.booking_container, parent, false)
+            DataBindingUtil.inflate(
+                layoutInflater!!,
+                com.ru.alferatz.R.layout.booking_container,
+                parent,
+                false
+            )
         val bookingViewHolder = BookingViewHolder(bookingBinding)
         return bookingViewHolder
     }
@@ -77,9 +82,13 @@ class BookingAdapter(
         val pictureId = listOfTableImages[position % listOfTableImages.size]
         val bookingStatus = bookings[position].status.description
         holder.bindBooking(bookings[position])
-        holder.itemView.findViewById<ImageView>(R.id.table_image)
-            .background =
-            ContextCompat.getDrawable(context, pictureId)
+
+        Glide.with(context).load(ContextCompat.getDrawable(context, pictureId))
+            //.optionalFitCenter() // scale image to fill the entire ImageView
+            .transform(RoundedCorners(25))
+            .into(holder.itemView.findViewById(R.id.table_image))
+
+
         holder.itemView.findViewById<TextView>(R.id.table_number)
             .text = "№${bookings[position].tableId}"
         holder.itemView.findViewById<TextView>(R.id.table_people_count)
@@ -88,10 +97,10 @@ class BookingAdapter(
             .text = bookingStatus
         var statusIcon = holder.itemView.findViewById<ImageView>(R.id.status_icon)
         when (bookingStatus) {
-            BookingStatus.CREATED.name -> statusIcon.setColorFilter(context.resources.getColor(R.color.color_green))
-            BookingStatus.CONFIRMED.name -> statusIcon.setColorFilter(context.resources.getColor(R.color.color_yellow))
-            BookingStatus.CANCELLED.name -> statusIcon.setColorFilter(context.resources.getColor(R.color.color_red))
-            else -> statusIcon.setColorFilter(context.resources.getColor(R.color.color_green))
+            BookingStatus.CREATED.name -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_green))
+            BookingStatus.CONFIRMED.name -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_yellow))
+            BookingStatus.CANCELLED.name -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_red))
+            else -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_green))
         }
 //        holder.itemView.setOnClickListener {
 //            val bundle = bundleOf("booking_adapter" to pictureId)

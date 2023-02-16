@@ -11,13 +11,13 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_auth">
 
-        <action
-            android:id="@+id/action_AuthFragment_to_confirmFragment"
-            app:destination="@id/confirmFragment" />
         <argument
             android:name="verificationId"
             android:defaultValue=""
             app:argType="string" />
+        <action
+            android:id="@+id/action_AuthFragment_to_confirmFragment"
+            app:destination="@id/confirmFragment" />
     </fragment>
     <fragment
         android:id="@+id/MainFragment"
@@ -25,8 +25,8 @@
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_booking">
         <action
-            android:id="@+id/action_MainFragment_to_infoFragment"
-            app:destination="@id/infoFragment" />
+            android:id="@+id/action_MainFragment_to_AuthFragment"
+            app:destination="@id/AuthFragment" />
         <action
             android:id="@+id/action_MainFragment_to_currentBookingFragment"
             app:destination="@id/currentBookingFragment" />
@@ -48,21 +48,12 @@
         <action
             android:id="@+id/action_infoFragment_to_MainFragment"
             app:destination="@id/MainFragment" />
-        <action
-            android:id="@+id/action_infoFragment_to_currentBookingFragment"
-            app:destination="@id/currentBookingFragment" />
-        <action
-            android:id="@+id/action_infoFragment_to_AuthFragment"
-            app:destination="@id/AuthFragment" />
     </fragment>
     <fragment
         android:id="@+id/currentBookingFragment"
         android:name="com.ru.alferatz.ui.fragment.CurrentBookingFragment"
         android:label="fragment_current_booking"
         tools:layout="@layout/fragment_current_booking">
-        <action
-            android:id="@+id/action_currentBookingFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
         <action
             android:id="@+id/action_currentBookingFragment_to_infoFragment"
             app:destination="@id/infoFragment" />

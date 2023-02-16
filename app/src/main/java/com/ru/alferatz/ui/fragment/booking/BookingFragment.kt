@@ -41,22 +41,7 @@ class BookingFragment : Fragment(), BookingListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var booking1 = BookingEntity()
-        booking1.id = 1L
-        booking1.tableId = 1L
-        booking1.participants = 3L
-
-        var booking2 = BookingEntity()
-        booking2.id = 2L
-        booking2.tableId = 2L
-        booking2.participants = 4L
-
-        var booking3 = BookingEntity()
-        booking3.id = 3L
-        booking3.tableId = 3L
-        booking3.participants = 5L
-
-        bookingEntityList = arrayListOf(booking1, booking2, booking3)
+        bookingEntityList = createBookingsList()
         _binding = FragmentBookingBinding.inflate(inflater, container, false)
         bookingAdapter = BookingAdapter(bookingEntityList, this, requireContext())
         timePagerAdapter = TimePagerAdapter(requireContext())
@@ -66,18 +51,21 @@ class BookingFragment : Fragment(), BookingListener {
         }
         _binding!!.timePager.run {
             adapter = timePagerAdapter
-            offscreenPageLimit = 3
+            offscreenPageLimit = 4
             clipToPadding = false
             clipChildren = false
             getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             val compositePageTransformer = CompositePageTransformer()
-            compositePageTransformer.addTransformer(MarginPageTransformer(40))
+            compositePageTransformer.addTransformer(MarginPageTransformer(10))
             compositePageTransformer.addTransformer { page, position ->
                 val r = 1 - abs(position)
                 page.scaleY = 0.85f + r * 0.15f
             }
             setPageTransformer(compositePageTransformer)
         }
+        _binding!!.timePicker.setColorFilter(R.color.color_red)
+
+
         return binding.root
     }
 
@@ -99,13 +87,54 @@ class BookingFragment : Fragment(), BookingListener {
                 bundle
             )
         }
-//        binding.weatherRecyclerView.findNavController().navigate(R.id.action_bookingFragment_to_currentBookingFragment2, bund)
-//        holder.item.setOnClickListener {
-//            val bundle = bundleOf(USERNAME_KEY to myDataset[position])
-//
-//            holder.item.findNavController().navigate(
-//                R.id.action_leaderboard_to_userProfile,
-//                bundle)
-//        }
+    }
+
+    private fun createBookingsList():ArrayList<BookingEntity>{
+        val booking1 = BookingEntity()
+        booking1.id = 1L
+        booking1.tableId = 1L
+        booking1.participants = 3L
+
+        val booking2 = BookingEntity()
+        booking2.id = 2L
+        booking2.tableId = 2L
+        booking2.participants = 4L
+
+        val booking3 = BookingEntity()
+        booking3.id = 3L
+        booking3.tableId = 3L
+        booking3.participants = 5L
+
+        val booking4 = BookingEntity()
+        booking4.id = 4L
+        booking4.tableId = 4L
+        booking4.participants = 5L
+
+        val booking5 = BookingEntity()
+        booking5.id = 5L
+        booking5.tableId = 5L
+        booking5.participants = 5L
+
+        val booking6 = BookingEntity()
+        booking6.id = 6L
+        booking6.tableId = 6L
+        booking6.participants = 5L
+
+        val booking7 = BookingEntity()
+        booking7.id = 7L
+        booking7.tableId = 7L
+        booking7.participants = 5L
+
+        val booking8 = BookingEntity()
+        booking8.id = 8L
+        booking8.tableId = 8L
+        booking8.participants = 5L
+
+        val booking9 = BookingEntity()
+        booking9.id = 8L
+        booking9.tableId = 8L
+        booking9.participants = 5L
+
+        return arrayListOf(booking1, booking2, booking3,booking4,booking5,booking6,booking7,booking8)
     }
 }

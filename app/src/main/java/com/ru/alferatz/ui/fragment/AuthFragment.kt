@@ -40,7 +40,7 @@ class AuthFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         auth = Firebase.auth
         auth.setLanguageCode("ru")
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
