@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ru.alferatz.R
 import com.ru.alferatz.databinding.TimePagerContainerBinding
 
-class TimePagerAdapter(context_: Context) :
+class TimePagerAdapter(context_: Context, timeIntervals: List<String>) :
     RecyclerView.Adapter<TimePagerAdapter.TimePagerViewHolder>() {
     private var layoutInflater: LayoutInflater? = null
     var context: Context = context_
-    private val listOfTimeIntervals = listOf("12:30", "14:30", "16:30", "18:30", "20:30", "22:30")
+    private val listOfTimeIntervals = timeIntervals
 
     inner class TimePagerViewHolder(itemContainerSliderImageBinding: TimePagerContainerBinding) :
         RecyclerView.ViewHolder(itemContainerSliderImageBinding.root) {

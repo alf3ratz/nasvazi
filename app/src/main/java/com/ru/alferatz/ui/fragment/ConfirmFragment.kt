@@ -65,7 +65,7 @@ class ConfirmFragment : Fragment() {
                     val sharedPrefsEdit: SharedPreferences.Editor = appSettingPrefs.edit()
                     sharedPrefsEdit.putBoolean("signIn", true)
                     sharedPrefsEdit.apply()
-                    findNavController().navigate(R.id.action_confirmFragment_to_MainFragment)
+                   // findNavController().navigate(R.id.action_confirmFragment_to_MainFragment)
                 } else {
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {

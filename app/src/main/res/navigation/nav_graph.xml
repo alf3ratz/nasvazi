@@ -1,62 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/MainFragment">
+    app:startDestination="@id/bookingFragment2">
 
     <fragment
-        android:id="@+id/AuthFragment"
-        android:name="com.ru.alferatz.ui.fragment.AuthFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_auth">
-
-        <argument
-            android:name="verificationId"
-            android:defaultValue=""
-            app:argType="string" />
-        <action
-            android:id="@+id/action_AuthFragment_to_confirmFragment"
-            app:destination="@id/confirmFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/MainFragment"
+        android:id="@+id/bookingFragment2"
         android:name="com.ru.alferatz.ui.fragment.booking.BookingFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_booking">
+        android:label="BookingFragment" >
         <action
-            android:id="@+id/action_MainFragment_to_AuthFragment"
-            app:destination="@id/AuthFragment" />
-        <action
-            android:id="@+id/action_MainFragment_to_currentBookingFragment"
+            android:id="@+id/action_bookingFragment2_to_currentBookingFragment"
             app:destination="@id/currentBookingFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/confirmFragment"
-        android:name="com.ru.alferatz.ui.fragment.ConfirmFragment"
-        android:label="fragment_confirm"
-        tools:layout="@layout/fragment_confirm">
-        <action
-            android:id="@+id/action_confirmFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/infoFragment"
-        android:name="com.ru.alferatz.ui.fragment.InfoFragment"
-        android:label="fragment_info"
-        tools:layout="@layout/fragment_info">
-        <action
-            android:id="@+id/action_infoFragment_to_MainFragment"
-            app:destination="@id/MainFragment" />
     </fragment>
     <fragment
         android:id="@+id/currentBookingFragment"
         android:name="com.ru.alferatz.ui.fragment.CurrentBookingFragment"
-        android:label="fragment_current_booking"
-        tools:layout="@layout/fragment_current_booking">
+        android:label="CurrentBookingFragment" >
         <action
             android:id="@+id/action_currentBookingFragment_to_infoFragment"
             app:destination="@id/infoFragment" />
     </fragment>
-    <include app:graph="@navigation/booking_list" />
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.ru.alferatz.ui.fragment.InfoFragment"
+        android:label="InfoFragment" >
+        <action
+            android:id="@+id/action_infoFragment_to_bookingFragment2"
+            app:destination="@id/bookingFragment2" />
+    </fragment>
 </navigation>

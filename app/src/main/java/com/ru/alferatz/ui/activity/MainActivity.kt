@@ -25,37 +25,21 @@ import com.ru.alferatz.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val navHostFragment = supportFragmentManager.findFragmentById(
-            R.id.nav_host_fragment_content_main
-        ) as NavHostFragment
-        navController = navHostFragment.navController
-        setUpBottomNav()
     }
 
     override fun onStart() {
         super.onStart()
         if (isCurrentUserSignedOut()) {
             Log.i("auth_user", "da")
-            navController.navigate(R.id.action_MainFragment_to_AuthFragment)
+            //navController.navigate(R.id.action_MainFragment_to_AuthFragment)
         }
-    }
-
-    private fun setUpBottomNav() {
-        val bottomNav = binding.bottomNav//findViewById<BottomNavigationView>(R.id.bottom_nav)
-        bottomNav.setupWithNavController(navController)
-    }
-    override fun onSupportNavigateUp(): Boolean {
-//        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                //|| super.onSupportNavigateUp()
     }
 
     private fun isCurrentUserSignedOut(): Boolean {

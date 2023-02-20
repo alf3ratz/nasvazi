@@ -75,7 +75,7 @@ class AuthFragment : Fragment() {
                 storedVerificationId = verificationId
                 resendToken = token
                 val bundle = bundleOf("verificationId" to storedVerificationId)
-                findNavController().navigate(R.id.action_AuthFragment_to_confirmFragment, bundle)
+                //findNavController().navigate(R.id.action_AuthFragment_to_confirmFragment, bundle)
             }
         }
         _binding = FragmentAuthBinding.inflate(inflater, container, false)
