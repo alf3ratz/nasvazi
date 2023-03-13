@@ -5,33 +5,50 @@ import android.content.Context
 import android.icu.number.NumberFormatter.with
 import android.os.Build
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.ru.alferatz.R
 import com.ru.alferatz.databinding.BookingContainerBinding
+import com.ru.alferatz.databinding.FragmentBookingBinding
 import com.ru.alferatz.enums.BookingStatus
 import com.ru.alferatz.listener.BookingListener
+import com.ru.alferatz.model.dto.BookingDto
+import com.ru.alferatz.model.dto.TableDto
 import com.ru.alferatz.model.entity.BookingEntity
+import com.ru.alferatz.ui.fragment.booking.SelectedBookingFragment
 
 
 class BookingAdapter(
-    bookings_: List<BookingEntity>,
+    bookings_: List<BookingDto>,
+    bookingEntityList_: ArrayList<BookingEntity>,
+    tables_: List<TableDto>,
     bookingListener_: BookingListener,
-    context_: Context
+    context_: Context,
+    fragmentManager_: FragmentManager,
+    parentBinding_: FragmentBookingBinding
 ) :
     RecyclerView.Adapter<BookingAdapter.BookingViewHolder>() {
 
-    private var bookings: List<BookingEntity> = bookings_
+    // TODO: пока что болванка, подумать как переделать
+    //private var bookings: List<BookingDto> = bookings_
+    private var bookings: List<BookingEntity> = bookingEntityList_
+    private var tables_: List<TableDto> = tables_
     private var layoutInflater: LayoutInflater? = null
     var bookingListener: BookingListener = bookingListener_
     var context: Context = context_
+    var fragmentManager: FragmentManager = fragmentManager_
+    var parentBinding: FragmentBookingBinding = parentBinding_
     private val listOfTableImages = listOf(
         com.ru.alferatz.R.drawable.table_1,
         com.ru.alferatz.R.drawable.table_2,
@@ -102,17 +119,21 @@ class BookingAdapter(
             BookingStatus.CANCELLED.name -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_red))
             else -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_green))
         }
-//        holder.itemView.setOnClickListener {
-//            val bundle = bundleOf("booking_adapter" to pictureId)
-//            context.findNavController().navigate(
-//                R.id.action_bookingFragment_to_currentBookingFragment2,
-//                bundle
-//            )
-//        }
+        holder.itemView.setOnClickListener {
+            val bundle = bundleOf("PICTURE_ID" to position)
+            val fragment = SelectedBookingFragment()
+            fragment.arguments = bundle
+            fragmentManager.beginTransaction()
+                .replace(
+                    (parentBinding.root.parent/*currentTrips.parent*/ as View).id,
+                    fragment
+                )
+                .addToBackStack(null).commit()
+        }
     }
 
     override fun getItemCount(): Int {
-        return bookings.size
+        return listOfTableImages.size
     }
 }
 

@@ -3,16 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--    <data>-->
+    <data>
 
-    <!--        <variable-->
-    <!--            name="tableId"-->
-    <!--            type="Long" />-->
-
-    <!--        <variable-->
-    <!--            name="capacity"-->
-    <!--            type="Long" />-->
-    <!--    </data>-->
+        <variable
+            name="event"
+            type="com.ru.alferatz.model.dto.BookingDto" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/container"
