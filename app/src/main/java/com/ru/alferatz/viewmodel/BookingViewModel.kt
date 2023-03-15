@@ -23,4 +23,8 @@ class BookingViewModel(@NonNull application: Application) : AndroidViewModel(app
         return tableRepository.getAllTables()
     }
 
+    fun getBookingByDateTime(dateTime: String):LiveData<BookingResponse>{
+        return bookingRepository.getBookingByDateTime(dateTime);
+    }
+
 }

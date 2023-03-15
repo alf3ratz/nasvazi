@@ -85,8 +85,8 @@ class SelectedBookingFragment : Fragment() {
                     response.tables.filter { i -> i.name == tableName } as ArrayList<TableDto>
                 listOfAvailableTables.addAll(availableTablesForCurrentTable)
 
-                // Добавить конвертацию из даты в строку
-                listOfAvailableTimeIntervals.add(listOfAvailableTables.get(0).availableStartTimes)
+                //TODO: Добавить конвертацию из даты в строку
+                //listOfAvailableTimeIntervals.add(listOfAvailableTables.get(0).availableStartTimes)
             }
     }
 

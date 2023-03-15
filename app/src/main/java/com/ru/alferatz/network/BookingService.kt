@@ -30,6 +30,8 @@ interface BookingService {
 
     @GET("booking/by-date?date={date}")
     fun getBookingByDate(@Path("date") date: String): Call<BookingResponse>
+    @GET("booking/by-date?dateTime={dateTime}")
+    fun getBookingByDateTime(@Path("dateTime") dateTime: String): Call<BookingResponse>
 
 
     @GET("")

@@ -85,6 +85,22 @@ class BookingRepository {
         })
         return data
     }
+    fun getBookingByDateTime(dateTime: String): LiveData<BookingResponse> {
+        val data: MutableLiveData<BookingResponse> = MutableLiveData()
+        bookingService.getBookingByDateTime(dateTime).enqueue(object : Callback<BookingResponse> {
+            override fun onFailure(@NonNull call: Call<BookingResponse>, t: Throwable) {
+                data.value = null
+            }
+
+            override fun onResponse(
+                @NonNull call: Call<BookingResponse>,
+                @NonNull response: Response<BookingResponse>
+            ) {
+                data.value = response.body()
+            }
+        })
+        return data
+    }
 
 
 }
