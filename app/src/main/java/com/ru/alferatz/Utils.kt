@@ -11,5 +11,5 @@ var selectedTime = ""
 var selectedDate = ""
 @RequiresApi(Build.VERSION_CODES.O)
 var selectedDateAsLocalDate = LocalDate.now()
-var bookingListByDateUtils: ArrayList<BookingDto> = ArrayList()
+var bookingListByDateUtils: List<BookingDto> = ArrayList()
 var bookingListByDateTimeUtils: ArrayList<BookingDto> = ArrayList()

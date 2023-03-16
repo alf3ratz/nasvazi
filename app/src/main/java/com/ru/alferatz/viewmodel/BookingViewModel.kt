@@ -20,6 +20,7 @@ class BookingViewModel(@NonNull application: Application) : AndroidViewModel(app
     }
 
     fun getAllTables(): LiveData<TableEntityResponse> {
+        var res = tableRepository.getAllTables().value
         return tableRepository.getAllTables()
     }
 

@@ -70,6 +70,7 @@ class SelectedBookingFragment : Fragment() {
         com.ru.alferatz.R.drawable.table_9
     )
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {

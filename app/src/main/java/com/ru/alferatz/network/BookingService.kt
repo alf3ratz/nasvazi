@@ -5,10 +5,7 @@ import com.ru.alferatz.model.request.CreateBookingRequest
 import com.ru.alferatz.model.response.BookingResponse
 import com.ru.alferatz.model.response.CreateBookingResponse
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface BookingService {
 
@@ -28,10 +25,10 @@ interface BookingService {
     @GET("")
     fun getCurrentFreeTables(): Call<BookingResponse>
 
-    @GET("booking/by-date?date={date}")
-    fun getBookingByDate(@Path("date") date: String): Call<BookingResponse>
-    @GET("booking/by-date?dateTime={dateTime}")
-    fun getBookingByDateTime(@Path("dateTime") dateTime: String): Call<BookingResponse>
+    @GET("booking/by-date")
+    fun getBookingByDate(@Query("date") date: String): Call<BookingResponse>
+    @GET("booking/by-date-time")
+    fun getBookingByDateTime(@Query("dateTime") dateTime: String): Call<BookingResponse>
 
 
     @GET("")

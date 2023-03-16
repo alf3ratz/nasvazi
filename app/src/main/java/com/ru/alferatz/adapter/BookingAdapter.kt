@@ -2,7 +2,6 @@ package com.ru.alferatz.adapter
 
 
 import android.content.Context
-import android.icu.number.NumberFormatter.with
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -22,28 +20,38 @@ import com.ru.alferatz.R
 import com.ru.alferatz.databinding.BookingContainerBinding
 import com.ru.alferatz.databinding.FragmentBookingBinding
 import com.ru.alferatz.enums.BookingStatus
+import com.ru.alferatz.enums.IsBookingClear
 import com.ru.alferatz.listener.BookingListener
 import com.ru.alferatz.model.dto.BookingDto
 import com.ru.alferatz.model.dto.TableDto
 import com.ru.alferatz.model.entity.BookingEntity
+import com.ru.alferatz.model.entity.TableEntity
+import com.ru.alferatz.ui.fragment.booking.BookingFragment
 import com.ru.alferatz.ui.fragment.booking.SelectedBookingFragment
+import java.time.LocalDateTime
 
 
 class BookingAdapter(
-    bookings_: List<BookingDto>,
-    bookingEntityList_: ArrayList<BookingEntity>,
-    tables_: List<TableDto>,
+    bookingsByDateTime_: List<BookingDto>,
+    allTables_: ArrayList<TableEntity>,
+    tablesByDateTime_: HashSet<TableDto>,
     bookingListener_: BookingListener,
     context_: Context,
     fragmentManager_: FragmentManager,
-    parentBinding_: FragmentBookingBinding
+    parentBinding_: FragmentBookingBinding,
+    bookingFragmentObject_: BookingFragment
 ) :
     RecyclerView.Adapter<BookingAdapter.BookingViewHolder>() {
 
-    // TODO: пока что болванка, подумать как переделать
-    //private var bookings: List<BookingDto> = bookings_
-    private var bookings: List<BookingEntity> = bookingEntityList_
-    private var tables_: List<TableDto> = tables_
+    //TODO: пока что болванка, подумать как переделать
+    private val bookingsByDateTime: List<BookingDto> = bookingsByDateTime_
+    private val bookingsByDateTimeWithUniqueTables: List<BookingDto> =
+        bookingsByDateTime_.distinctBy { i -> i.tableId }
+    private val allTableEntities: ArrayList<TableEntity> = allTables_
+    private val bookingFragmentObject = bookingFragmentObject_
+
+    //private var bookings: List<BookingEntity> = bookingEntityList_
+    private var bookedTablesAtSelectedTime: HashSet<TableDto> = tablesByDateTime_
     private var layoutInflater: LayoutInflater? = null
     var bookingListener: BookingListener = bookingListener_
     var context: Context = context_
@@ -68,15 +76,23 @@ class BookingAdapter(
             this.itemLayoutBinding = itemLayoutBinding
         }
 
-        fun bindBooking(bookingEntity: BookingEntity) {
+        fun bindBooking(bookingDto: BookingDto, tableName: String) {
             //itemLayoutBinding?.bookingInfo = bookingEntity
 //            itemLayoutBinding?.root.
 //            itemLayoutBinding?.tableId = bookingEntity.tableId
+            if (bookingDto.id != -1L) {
+                itemLayoutBinding!!.table = allTableEntities.find { i -> i.name.equals(tableName) }
+                itemLayoutBinding!!.status = IsBookingClear.PARTIALLY_NOT_CLEAR
+            } else {
+                itemLayoutBinding!!.table = allTableEntities.find { i -> i.name.equals(tableName) }
+                itemLayoutBinding!!.status = IsBookingClear.IS_CLEAR
+            }
             itemLayoutBinding?.executePendingBindings()
-            if (itemLayoutBinding?.root != null)
-                itemView.setOnClickListener {
-                    bookingListener.onEventClicked(bookingEntity)
-                }
+
+//            if (itemLayoutBinding?.root != null)
+//                itemView.setOnClickListener {
+//                    bookingListener.onEventClicked(bookingEntity)
+//                }
         }
     }
 
@@ -86,7 +102,7 @@ class BookingAdapter(
         val bookingBinding: BookingContainerBinding =
             DataBindingUtil.inflate(
                 layoutInflater!!,
-                com.ru.alferatz.R.layout.booking_container,
+                R.layout.booking_container,
                 parent,
                 false
             )
@@ -94,42 +110,78 @@ class BookingAdapter(
         return bookingViewHolder
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onBindViewHolder(holder: BookingViewHolder, position: Int) {
-        val pictureId = listOfTableImages[position % listOfTableImages.size]
-        val bookingStatus = bookings[position].status.description
-        holder.bindBooking(bookings[position])
+        if (bookingsByDateTimeWithUniqueTables.find { i -> i.tableId.equals(position + 1) } != null) {
+            holder.bindBooking(
+                bookingsByDateTimeWithUniqueTables[position],
+                bookingFragmentObject.findTableNameById(position + 1L)
+            )
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if((position+1) > 6){
+                    holder.bindBooking(
+                        BookingDto(
+                            -1L,
+                            "",
+                            "",
+                            LocalDateTime.now(),
+                            BookingStatus.CREATED,
+                            -1L,
+                            0L,
+                            ""
+                        ), bookingFragmentObject.findTableNameById(5L))
+                }else{
+                    holder.bindBooking(
+                        BookingDto(
+                            -1L,
+                            "",
+                            "",
+                            LocalDateTime.now(),
+                            BookingStatus.CREATED,
+                            -1L,
+                            0L,
+                            ""
+                        ), bookingFragmentObject.findTableNameById(position + 1L)
+                    )
+                }
 
-        Glide.with(context).load(ContextCompat.getDrawable(context, pictureId))
-            //.optionalFitCenter() // scale image to fill the entire ImageView
-            .transform(RoundedCorners(25))
-            .into(holder.itemView.findViewById(R.id.table_image))
-
-
-        holder.itemView.findViewById<TextView>(R.id.table_number)
-            .text = "№${bookings[position].tableId}"
-        holder.itemView.findViewById<TextView>(R.id.table_people_count)
-            .text = bookings[position].tableId.toString()
-        holder.itemView.findViewById<TextView>(R.id.booking_status)
-            .text = bookingStatus
-        var statusIcon = holder.itemView.findViewById<ImageView>(R.id.status_icon)
-        when (bookingStatus) {
-            BookingStatus.CREATED.name -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_green))
-            BookingStatus.CONFIRMED.name -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_yellow))
-            BookingStatus.CANCELLED.name -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_red))
-            else -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_green))
+            }
         }
-        holder.itemView.setOnClickListener {
-            val bundle = bundleOf("PICTURE_ID" to position)
-            val fragment = SelectedBookingFragment()
-            fragment.arguments = bundle
-            fragmentManager.beginTransaction()
-                .replace(
-                    (parentBinding.root.parent/*currentTrips.parent*/ as View).id,
-                    fragment
-                )
-                .addToBackStack(null).commit()
-        }
+
+//        val pictureId = listOfTableImages[position % listOfTableImages.size]
+//        val bookingStatus = bookingsByDateTime[position].status.description
+//
+//        Glide.with(context).load(ContextCompat.getDrawable(context, pictureId))
+//            //.optionalFitCenter() // scale image to fill the entire ImageView
+//            .transform(RoundedCorners(25))
+//            .into(holder.itemView.findViewById(R.id.table_image))
+//
+//
+//        holder.itemView.findViewById<TextView>(R.id.table_number)
+//            .text = "№${bookingsByDateTime[position].tableId}"
+//        holder.itemView.findViewById<TextView>(R.id.table_people_count)
+//            .text = bookingsByDateTime[position].tableId.toString()
+//        holder.itemView.findViewById<TextView>(R.id.booking_status)
+//            .text = bookingStatus
+//        var statusIcon = holder.itemView.findViewById<ImageView>(R.id.status_icon)
+//        when (bookingStatus) {
+//            BookingStatus.CREATED.name -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_green))
+//            BookingStatus.CONFIRMED.name -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_yellow))
+//            BookingStatus.CANCELLED.name -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_red))
+//            else -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_green))
+//        }
+//        holder.itemView.setOnClickListener {
+//            val bundle =
+//                bundleOf("PICTURE_ID" to position, "TABLE_CAPACITY" to 1, "TABLE_NAME" to "")
+//            val fragment = SelectedBookingFragment()
+//            fragment.arguments = bundle
+//            fragmentManager.beginTransaction()
+//                .replace(
+//                    (parentBinding.root.parent as View).id,
+//                    fragment
+//                )
+//                .addToBackStack(null).commit()
+//        }
     }
 
     override fun getItemCount(): Int {

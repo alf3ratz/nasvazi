@@ -12,10 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
-import com.ru.alferatz.R
+import androidx.viewpager2.widget.ViewPager2
+import com.ru.alferatz.*
 import com.ru.alferatz.adapter.BookingAdapter
 import com.ru.alferatz.adapter.TimePagerAdapter
-import com.ru.alferatz.bookingListByDateUtils
 import com.ru.alferatz.databinding.FragmentBookingBinding
 import com.ru.alferatz.listener.BookingListener
 import com.ru.alferatz.model.dto.BookingDto
@@ -24,22 +24,22 @@ import com.ru.alferatz.model.entity.BookingEntity
 import com.ru.alferatz.model.entity.TableEntity
 import com.ru.alferatz.model.response.BookingResponse
 import com.ru.alferatz.model.response.TableEntityResponse
-import com.ru.alferatz.selectedDate
-import com.ru.alferatz.selectedDateAsLocalDate
 import com.ru.alferatz.viewmodel.BookingViewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 import kotlin.math.abs
 
 class BookingFragment : Fragment(), BookingListener {
     private lateinit var viewModel: BookingViewModel
-    private var bookingListByDate: List<BookingDto> = ArrayList()
+    private var bookingListByDateTime: ArrayList<BookingDto> = ArrayList()
     private var binding: FragmentBookingBinding? = null
     private lateinit var bookingAdapter: BookingAdapter
-    private var tableList: ArrayList<TableDto> = ArrayList()
-    private var allTablesList: ArrayList<TableEntity> = ArrayList()
+    private var tableListByDateTime: HashSet<TableDto> = HashSet()
+    private var allTableEntityList: ArrayList<TableEntity> = ArrayList()
     private val listOfTimeIntervals = listOf(
         "00:30:00",
         "02:30:00",
@@ -81,9 +81,12 @@ class BookingFragment : Fragment(), BookingListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[BookingViewModel::class.javaObjectType]
-        viewModel.getAllTables().observe(requireActivity()) { response: TableEntityResponse ->
+        viewModel.getAllTables().observe(requireActivity()) { response: TableEntityResponse? ->
             // TODO: пока что кол-во столов захардокожено, потом надо синхронизировать с тем, что в базе
-            allTablesList.addAll(response.tables)
+            allTableEntityList.addAll(response!!.tables)
+        }
+        if(allTableEntityList.isEmpty()){
+            addAllTablesManually()
         }
     }
 
@@ -95,15 +98,22 @@ class BookingFragment : Fragment(), BookingListener {
         bookingEntityList = createBookingsList()
         binding = FragmentBookingBinding.inflate(inflater, container, false)
         bookingAdapter = BookingAdapter(
-            bookingListByDate,
-            bookingEntityList,
-            tableList,
+            bookingListByDateTime,
+            allTableEntityList,
+            tableListByDateTime,
             this,
             requireContext(),
             parentFragmentManager,
-            binding!!
+            binding!!, this
         )
-        timePagerAdapter = TimePagerAdapter(requireContext(), listOfTimeIntervals)
+        timePagerAdapter =
+            TimePagerAdapter(
+                requireContext(),
+                listOfTimeIntervals,
+                viewModel,
+                requireActivity(),
+                bookingAdapter
+            )
         binding!!.bookingRecyclerView.run {
             setHasFixedSize(true)
             adapter = bookingAdapter
@@ -114,8 +124,15 @@ class BookingFragment : Fragment(), BookingListener {
         binding!!.textDate.apply {
             val mCalendar = Calendar.getInstance()
             val dateFormat = SimpleDateFormat("yyyy-mm-dd")
-            selectedDate = dateFormat.format(mCalendar.time)
-            selectedDateAsLocalDate = LocalDate.parse(selectedDate)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                selectedDate =
+                    LocalDateTime.ofInstant(
+                        mCalendar.toInstant(),
+                        mCalendar.getTimeZone().toZoneId()
+                    ).toLocalDate()
+                        .toString()
+                selectedDateAsLocalDate = LocalDate.parse(selectedDate)
+            }//dateFormat.format(mCalendar.time)
             val day = mCalendar[Calendar.DAY_OF_MONTH]
             val month: String =
                 mCalendar.getDisplayName(
@@ -137,30 +154,68 @@ class BookingFragment : Fragment(), BookingListener {
                     )
                 dpd.show()
             }
-            return binding!!.root
         }
-
+        bindTimePagerListener()
+        return binding!!.root
     }
 
-    private fun getBookingByDate() {
-        viewModel.getBookingByDate(selectedDate).observe(requireActivity()) { t: BookingResponse ->
-            bookingListByDate = t.bookings
-            bookingListByDateUtils = bookingListByDate
-            bookingAdapter.notifyDataSetChanged()
-            bookingListByDate.forEach { i ->
-                tableList.add(
-                    TableDto(
-                        findTableNameById(i.tableId),
-                        i.tableId,
-                        Collections.emptyList()
-                    )
-                )
+    private fun bindTimePagerListener() {
+        binding!!.timePager.registerOnPageChangeCallback(object :
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             }
-        }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                viewModel.getBookingByDateTime("${selectedDate}T${listOfTimeIntervals[position]}")
+                    .observe(requireActivity()) { response: BookingResponse ->
+                        // TODO: подумать как обновить список на странице бронирований
+                        bookingListByDateTime.clear()
+                        bookingListByDateTime.addAll(response.bookings)
+                        //bookingListByDateTime.sortBy { i->i.tableId }
+                        bookingAdapter.notifyDataSetChanged()
+                        bookingListByDateTime.forEach { i ->
+                            tableListByDateTime.add(
+                                TableDto(
+                                    findTableNameById(i.tableId),
+                                    i.tableId,
+                                    Collections.emptyList()
+                                )
+                            )
+                        }
+                    }
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+            }
+        })
     }
 
-    private fun findTableNameById(tableId: Long): String {
-        return allTablesList.find { i -> i.id == tableId }!!.name
+//    private fun getBookingByDate() {
+//        viewModel.getBookingByDate(selectedDate).observe(requireActivity()) { t: BookingResponse ->
+//            bookingListByDate = t.bookings
+//            bookingListByDateUtils = bookingListByDate
+//            bookingAdapter.notifyDataSetChanged()
+//            bookingListByDate.forEach { i ->
+//                tableList.add(
+//                    TableDto(
+//                        findTableNameById(i.tableId),
+//                        i.tableId,
+//                        Collections.emptyList()
+//                    )
+//                )
+//            }
+//        }
+//    }
+
+    fun findTableNameById(tableId: Long): String {
+        return allTableEntityList.find { i -> i.id == tableId }!!.name
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -256,7 +311,9 @@ class BookingFragment : Fragment(), BookingListener {
         binding!!.timePager.currentItem = time % listOfTimeIntervals.size - 2
     }
 
-
+    private fun addAllTablesManually(){
+        allTableEntityList.addAll(listOf(TableEntity(1L,"testTable",10L), TableEntity(2L,"Стол 1",6L),TableEntity(3L,"Стол 2",6L),TableEntity(4L,"Стол 3",6L),TableEntity(5L,"Стол 4",6L),TableEntity(6L,"Стол 5",6L)))
+    }
     override fun onEventClicked(booking: BookingEntity) {
         TODO("Not yet implemented")
     }
