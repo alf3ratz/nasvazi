@@ -39,7 +39,8 @@ class BookingFragment : Fragment(), BookingListener {
     private var binding: FragmentBookingBinding? = null
     private lateinit var bookingAdapter: BookingAdapter
     private var tableListByDateTime: HashSet<TableDto> = HashSet()
-    private var allTableEntityList: ArrayList<TableEntity> = ArrayList()
+
+    //private var allTableEntityList: ArrayList<TableEntity> = ArrayList()
     private val listOfTimeIntervals = listOf(
         "00:30:00",
         "02:30:00",
@@ -85,8 +86,8 @@ class BookingFragment : Fragment(), BookingListener {
             // TODO: пока что кол-во столов захардокожено, потом надо синхронизировать с тем, что в базе
             allTableEntityList.addAll(response!!.tables)
         }
-        if(allTableEntityList.isEmpty()){
-            addAllTablesManually()
+        if (allTableEntityList.isEmpty()) {
+            allTableEntityList = addAllTablesManually()
         }
     }
 
@@ -182,7 +183,7 @@ class BookingFragment : Fragment(), BookingListener {
                         bookingListByDateTime.forEach { i ->
                             tableListByDateTime.add(
                                 TableDto(
-                                    findTableNameById(i.tableId),
+                                    findTableNameById(i.tableId!!),
                                     i.tableId,
                                     Collections.emptyList()
                                 )
@@ -311,9 +312,19 @@ class BookingFragment : Fragment(), BookingListener {
         binding!!.timePager.currentItem = time % listOfTimeIntervals.size - 2
     }
 
-    private fun addAllTablesManually(){
-        allTableEntityList.addAll(listOf(TableEntity(1L,"testTable",10L), TableEntity(2L,"Стол 1",6L),TableEntity(3L,"Стол 2",6L),TableEntity(4L,"Стол 3",6L),TableEntity(5L,"Стол 4",6L),TableEntity(6L,"Стол 5",6L)))
+    private fun addAllTablesManually(): ArrayList<TableEntity> {
+
+        val lst = arrayListOf(
+            TableEntity(1L, "testTable", 10L),
+            TableEntity(2L, "Стол 1", 6L),
+            TableEntity(3L, "Стол 2", 6L),
+            TableEntity(4L, "Стол 3", 6L),
+            TableEntity(5L, "Стол 4", 6L),
+            TableEntity(6L, "Стол 5", 6L)
+        )
+        return lst
     }
+
     override fun onEventClicked(booking: BookingEntity) {
         TODO("Not yet implemented")
     }

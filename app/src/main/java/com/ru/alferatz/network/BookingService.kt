@@ -1,5 +1,6 @@
 package com.ru.alferatz.network
 
+import com.ru.alferatz.model.request.BookingByUserRequest
 import com.ru.alferatz.model.request.BookingRequest
 import com.ru.alferatz.model.request.CreateBookingRequest
 import com.ru.alferatz.model.response.BookingResponse
@@ -27,11 +28,11 @@ interface BookingService {
 
     @GET("booking/by-date")
     fun getBookingByDate(@Query("date") date: String): Call<BookingResponse>
+
     @GET("booking/by-date-time")
     fun getBookingByDateTime(@Query("dateTime") dateTime: String): Call<BookingResponse>
 
-
-    @GET("")
-    fun getCurrentBooking(@Path("phoneNumber") phoneNumber: String): Call<BookingResponse>
+    @GET("booking/by-user")
+    fun getBookingByUser(@Query("userId") userId: Long): Call<BookingResponse>
 
 }

@@ -8,43 +8,19 @@
         android:layout_height="match_parent"
         tools:context=".ui.fragment.CurrentBookingFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/image_container"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_160sdp"
-            android:layout_marginBottom="@dimen/_110sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/selected_table_image"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_165sdp"
-                android:scaleType="fitXY"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/current_booking_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/empty_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@id/description_container"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_container" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/description_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/empty_text">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

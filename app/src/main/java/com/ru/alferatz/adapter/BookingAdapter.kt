@@ -21,6 +21,7 @@ import com.ru.alferatz.databinding.BookingContainerBinding
 import com.ru.alferatz.databinding.FragmentBookingBinding
 import com.ru.alferatz.enums.BookingStatus
 import com.ru.alferatz.enums.IsBookingClear
+import com.ru.alferatz.listOfTableImages
 import com.ru.alferatz.listener.BookingListener
 import com.ru.alferatz.model.dto.BookingDto
 import com.ru.alferatz.model.dto.TableDto
@@ -57,16 +58,6 @@ class BookingAdapter(
     var context: Context = context_
     var fragmentManager: FragmentManager = fragmentManager_
     var parentBinding: FragmentBookingBinding = parentBinding_
-    private val listOfTableImages = listOf(
-        com.ru.alferatz.R.drawable.table_1,
-        com.ru.alferatz.R.drawable.table_2,
-        com.ru.alferatz.R.drawable.table_3,
-        com.ru.alferatz.R.drawable.table_4,
-        com.ru.alferatz.R.drawable.table_5,
-        com.ru.alferatz.R.drawable.table_7,
-        com.ru.alferatz.R.drawable.table_8,
-        com.ru.alferatz.R.drawable.table_9
-    )
 
     inner class BookingViewHolder(itemLayoutBinding: BookingContainerBinding) :
         RecyclerView.ViewHolder(itemLayoutBinding.root) {
@@ -76,23 +67,44 @@ class BookingAdapter(
             this.itemLayoutBinding = itemLayoutBinding
         }
 
-        fun bindBooking(bookingDto: BookingDto, tableName: String) {
+        fun bindBooking(bookingDto: BookingDto, tableName: String, position: Int) {
             //itemLayoutBinding?.bookingInfo = bookingEntity
 //            itemLayoutBinding?.root.
 //            itemLayoutBinding?.tableId = bookingEntity.tableId
-            if (bookingDto.id != -1L) {
-                itemLayoutBinding!!.table = allTableEntities.find { i -> i.name.equals(tableName) }
-                itemLayoutBinding!!.status = IsBookingClear.PARTIALLY_NOT_CLEAR
-            } else {
-                itemLayoutBinding!!.table = allTableEntities.find { i -> i.name.equals(tableName) }
-                itemLayoutBinding!!.status = IsBookingClear.IS_CLEAR
+            itemLayoutBinding!!.apply {
+                if (bookingDto.id != -1L) {
+                    table = allTableEntities.find { i -> i.name.equals(tableName) }
+                    status = IsBookingClear.PARTIALLY_NOT_CLEAR
+                } else {
+                    table = allTableEntities.find { i -> i.name.equals(tableName) }
+                    status = IsBookingClear.IS_CLEAR
+                }
+                executePendingBindings()
+                val pictureId = listOfTableImages[position % listOfTableImages.size]
+                //val bookingStatus = bookingsByDateTime[position].status.description
+//
+                Glide.with(context).load(ContextCompat.getDrawable(context, pictureId))
+                    //.optionalFitCenter() // scale image to fill the entire ImageView
+                    .transform(RoundedCorners(25))
+                    .into(tableImage)
+                when (status) {
+                    IsBookingClear.IS_CLEAR -> statusIcon.setColorFilter(
+                        context.resources.getColor(
+                            R.color.color_green
+                        )
+                    )
+                    IsBookingClear.PARTIALLY_NOT_CLEAR -> statusIcon.setColorFilter(
+                        context.resources.getColor(
+                            R.color.color_yellow
+                        )
+                    )
+                    IsBookingClear.FULLY_NOT_CLEAR -> statusIcon.setColorFilter(
+                        context.resources.getColor(
+                            R.color.color_red
+                        )
+                    )
+                }
             }
-            itemLayoutBinding?.executePendingBindings()
-
-//            if (itemLayoutBinding?.root != null)
-//                itemView.setOnClickListener {
-//                    bookingListener.onEventClicked(bookingEntity)
-//                }
         }
     }
 
@@ -106,42 +118,47 @@ class BookingAdapter(
                 parent,
                 false
             )
+
         val bookingViewHolder = BookingViewHolder(bookingBinding)
         return bookingViewHolder
     }
 
     override fun onBindViewHolder(holder: BookingViewHolder, position: Int) {
-        if (bookingsByDateTimeWithUniqueTables.find { i -> i.tableId.equals(position + 1) } != null) {
+        if (bookingsByDateTimeWithUniqueTables.find { i -> i.tableId!!.equals(position + 1) } != null) {
             holder.bindBooking(
                 bookingsByDateTimeWithUniqueTables[position],
-                bookingFragmentObject.findTableNameById(position + 1L)
+                bookingFragmentObject.findTableNameById(position + 1L),
+                position
             )
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if((position+1) > 6){
+                if ((position + 1) > 6) {
                     holder.bindBooking(
                         BookingDto(
                             -1L,
+                            1L,
                             "",
                             "",
-                            LocalDateTime.now(),
+                            longArrayOf(),
                             BookingStatus.CREATED,
                             -1L,
                             0L,
                             ""
-                        ), bookingFragmentObject.findTableNameById(5L))
-                }else{
+                        ), bookingFragmentObject.findTableNameById(5L), position
+                    )
+                } else {
                     holder.bindBooking(
                         BookingDto(
                             -1L,
+                            1L,
                             "",
                             "",
-                            LocalDateTime.now(),
+                            longArrayOf(),
                             BookingStatus.CREATED,
                             -1L,
                             0L,
                             ""
-                        ), bookingFragmentObject.findTableNameById(position + 1L)
+                        ), bookingFragmentObject.findTableNameById(position + 1L), position
                     )
                 }
 

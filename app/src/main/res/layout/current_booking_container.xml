@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="bookedTableDto"
+            type="com.ru.alferatz.model.dto.TableDto" />
+
+        <variable
+            name="bookedTableEntity"
+            type="com.ru.alferatz.model.entity.TableEntity" />
+
+        <variable
+            name="currentBooking"
+            type="com.ru.alferatz.model.dto.BookingDto" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_4sdp">
+
+        <View
+            android:id="@+id/viewSupporter"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@id/table_image" />
+
+        <View
+            android:id="@+id/viewBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/container_background"
+            android:paddingBottom="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/date_text" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/table_image"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+<!--        android:text="@{`Дата: `+currentBooking.startTime.toString()}"-->
+
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:fontFamily="@font/ubuntu_medium"
+            android:includeFontPadding="false"
+            android:paddingTop="@dimen/_8sdp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_13ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/table_image"
+            app:layout_constraintTop_toTopOf="@id/table_image" />
+
+        <TextView
+            android:id="@+id/table_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:fontFamily="@font/ubuntu_regular"
+            android:includeFontPadding="false"
+            android:text="@{`Стол №`+bookedTableEntity.id}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="@id/date_text"
+            app:layout_constraintStart_toStartOf="@id/date_text"
+            app:layout_constraintTop_toBottomOf="@id/date_text" />
+
+        <TextView
+            android:id="@+id/table_capacity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:fontFamily="@font/ubuntu_regular"
+            android:includeFontPadding="false"
+            android:text="@{`Количество человек: `+currentBooking.participants}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintEnd_toEndOf="@id/date_text"
+            app:layout_constraintStart_toStartOf="@id/date_text"
+            app:layout_constraintTop_toBottomOf="@id/table_number" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

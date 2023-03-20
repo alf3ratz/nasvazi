@@ -7,7 +7,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.InfoFragment">
 
-<!--<ScrollV-->
+<!--<ScrollView-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content">-->
+<!--    -->
+<!--</ScrollView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

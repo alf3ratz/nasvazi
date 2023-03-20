@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.annotation.NonNull
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.ru.alferatz.model.request.BookingByUserRequest
 import com.ru.alferatz.model.response.BookingResponse
 import com.ru.alferatz.model.response.TableEntityResponse
 import com.ru.alferatz.repository.BookingRepository
@@ -24,8 +25,7 @@ class BookingViewModel(@NonNull application: Application) : AndroidViewModel(app
         return tableRepository.getAllTables()
     }
 
-    fun getBookingByDateTime(dateTime: String):LiveData<BookingResponse>{
+    fun getBookingByDateTime(dateTime: String): LiveData<BookingResponse> {
         return bookingRepository.getBookingByDateTime(dateTime);
     }
-
 }
