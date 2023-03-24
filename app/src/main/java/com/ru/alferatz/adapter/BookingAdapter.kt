@@ -21,6 +21,7 @@ import com.ru.alferatz.databinding.BookingContainerBinding
 import com.ru.alferatz.databinding.FragmentBookingBinding
 import com.ru.alferatz.enums.BookingStatus
 import com.ru.alferatz.enums.IsBookingClear
+import com.ru.alferatz.findTableNameById
 import com.ru.alferatz.listOfTableImages
 import com.ru.alferatz.listener.BookingListener
 import com.ru.alferatz.model.dto.BookingDto
@@ -104,6 +105,22 @@ class BookingAdapter(
                         )
                     )
                 }
+                itemView.setOnClickListener {
+                    val bundle =
+                        bundleOf(
+                            "PICTURE_ID" to position,
+                            "TABLE_CAPACITY" to table!!.capacity,
+                            "TABLE_NAME" to tableName
+                        )
+                    val fragment = SelectedBookingFragment()
+                    fragment.arguments = bundle
+                    fragmentManager.beginTransaction()
+                        .replace(
+                            (parentBinding.root.parent as View).id,
+                            fragment
+                        )
+                        .addToBackStack(null).commit()
+                }
             }
         }
     }
@@ -127,7 +144,7 @@ class BookingAdapter(
         if (bookingsByDateTimeWithUniqueTables.find { i -> i.tableId!!.equals(position + 1) } != null) {
             holder.bindBooking(
                 bookingsByDateTimeWithUniqueTables[position],
-                bookingFragmentObject.findTableNameById(position + 1L),
+                findTableNameById(position + 1L),
                 position
             )
         } else {
@@ -144,7 +161,7 @@ class BookingAdapter(
                             -1L,
                             0L,
                             ""
-                        ), bookingFragmentObject.findTableNameById(5L), position
+                        ), findTableNameById(5L), position
                     )
                 } else {
                     holder.bindBooking(
@@ -158,7 +175,7 @@ class BookingAdapter(
                             -1L,
                             0L,
                             ""
-                        ), bookingFragmentObject.findTableNameById(position + 1L), position
+                        ), findTableNameById(position + 1L), position
                     )
                 }
 

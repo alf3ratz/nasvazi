@@ -7,12 +7,17 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
+import java.time.LocalDate
 
 interface TableService {
     @GET("table/all")
     fun getAllTables(): Call<TableEntityResponse>
 
-    @POST("table/available")
-    fun getAvailableTables(@Body request:AvailableTablesRequest):Call<TableWithSlotsResponse>
+    @GET("table/available")
+    fun getAvailableTables(
+        @Query("capacity") capacity: Long,
+        @Query("date") date: LocalDate
+    ): Call<TableWithSlotsResponse>
 
 }

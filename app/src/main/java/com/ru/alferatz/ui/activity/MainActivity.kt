@@ -3,21 +3,19 @@ package com.ru.alferatz.ui.activity
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ru.alferatz.R
+import com.ru.alferatz.activityBinding
+import com.ru.alferatz.currentUserId
 import com.ru.alferatz.databinding.ActivityMainBinding
-import com.ru.alferatz.ui.fragment.CurrentBookingFragment
+import com.ru.alferatz.ui.fragment.AuthFragment
+import com.ru.alferatz.ui.fragment.currentbooking.CurrentBookingFragment
 import com.ru.alferatz.ui.fragment.InfoFragment
-import com.ru.alferatz.ui.fragment.MainFragment
 import com.ru.alferatz.ui.fragment.booking.BookingFragment
 import java.security.InvalidParameterException
 
@@ -32,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        activityBinding = binding
         setContentView(binding.root)
 //        val navHostFragment = supportFragmentManager.findFragmentById(
 //            R.id.nav_host_activity_main
@@ -62,7 +61,11 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        moveToFragment(BookingFragment())
+        if (isCurrentUserSignedOut()) {
+            moveToFragment(AuthFragment())
+            val appSettingPrefs: SharedPreferences = getSharedPreferences("AppSettingPrefs", 0)
+            currentUserId = appSettingPrefs.getLong("userId", 0L)
+        }
     }
 
     private fun moveToFragment(fragment: Fragment) {
@@ -71,13 +74,6 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (isCurrentUserSignedOut()) {
-            Log.i("auth_user", "da")
-            //navController.navigate(R.id.action_MainFragment_to_AuthFragment)
-        }
-    }
 
     private fun isCurrentUserSignedOut(): Boolean {
 //        val user = Firebase.auth.currentUser

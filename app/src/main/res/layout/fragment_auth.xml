@@ -19,7 +19,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/input_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,11 +29,22 @@
             app:layout_constraintTop_toBottomOf="@id/textview_first">
 
             <EditText
+                android:id="@+id/input_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Введите имя"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
                 android:id="@+id/input_phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Введите номер телефона"
-                android:inputType="phone" />
+                android:inputType="phone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/input_name" />
 
             <Button
                 android:id="@+id/button_send"
@@ -44,7 +55,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/input_phone_number"
                 app:layout_constraintTop_toTopOf="@id/input_phone_number" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

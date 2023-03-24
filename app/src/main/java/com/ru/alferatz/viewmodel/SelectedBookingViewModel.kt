@@ -11,6 +11,7 @@ import com.ru.alferatz.model.response.CreateBookingResponse
 import com.ru.alferatz.model.response.TableWithSlotsResponse
 import com.ru.alferatz.repository.BookingRepository
 import com.ru.alferatz.repository.TableRepository
+import java.time.LocalDate
 
 class SelectedBookingViewModel(@NonNull application: Application) : AndroidViewModel(application) {
     private var bookingRepository: BookingRepository =
@@ -22,7 +23,7 @@ class SelectedBookingViewModel(@NonNull application: Application) : AndroidViewM
         return bookingRepository.createBooking(request)
     }
 
-    fun getAvailableTables(request: AvailableTablesRequest): LiveData<TableWithSlotsResponse> {
-        return tableRepository.getAvailableTables(request)
+    fun getAvailableTables(capacity: Long, date: LocalDate): LiveData<TableWithSlotsResponse> {
+        return tableRepository.getAvailableTables(capacity, date)
     }
 }

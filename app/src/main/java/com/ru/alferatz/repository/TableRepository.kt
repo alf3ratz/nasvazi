@@ -11,6 +11,7 @@ import com.ru.alferatz.network.TableService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
 
 class TableRepository {
     private var tableService: TableService =
@@ -33,9 +34,9 @@ class TableRepository {
         return data
     }
 
-    fun getAvailableTables(request: AvailableTablesRequest): LiveData<TableWithSlotsResponse> {
+    fun getAvailableTables(capacity:Long, date:LocalDate): LiveData<TableWithSlotsResponse> {
         val data: MutableLiveData<TableWithSlotsResponse> = MutableLiveData()
-        tableService.getAvailableTables(request).enqueue(object : Callback<TableWithSlotsResponse> {
+        tableService.getAvailableTables(capacity, date).enqueue(object : Callback<TableWithSlotsResponse> {
             override fun onFailure(@NonNull call: Call<TableWithSlotsResponse>, t: Throwable) {
                 data.value = null
             }

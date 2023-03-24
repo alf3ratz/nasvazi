@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/currentBookingFragment"
-        android:name="com.ru.alferatz.ui.fragment.CurrentBookingFragment"
+        android:name="com.ru.alferatz.ui.fragment.currentbooking.CurrentBookingFragment"
         android:label="CurrentBookingFragment" >
         <action
             android:id="@+id/action_currentBookingFragment_to_infoFragment"

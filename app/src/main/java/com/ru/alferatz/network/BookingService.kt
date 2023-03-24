@@ -2,8 +2,10 @@ package com.ru.alferatz.network
 
 import com.ru.alferatz.model.request.BookingByUserRequest
 import com.ru.alferatz.model.request.BookingRequest
+import com.ru.alferatz.model.request.CancelBookingRequest
 import com.ru.alferatz.model.request.CreateBookingRequest
 import com.ru.alferatz.model.response.BookingResponse
+import com.ru.alferatz.model.response.CancelBookingResponse
 import com.ru.alferatz.model.response.CreateBookingResponse
 import retrofit2.Call
 import retrofit2.http.*
@@ -14,7 +16,7 @@ interface BookingService {
     fun createBooking(@Body request: CreateBookingRequest): Call<CreateBookingResponse>
 
     @POST("booking/cancel")
-    fun cancelBooking(): Call<BookingResponse>
+    fun cancelBooking(@Body request: CancelBookingRequest): Call<CancelBookingResponse>
 
     @POST("booking/confirm")
     fun confirmBooking(): Call<BookingResponse>

@@ -1,6 +1,8 @@
 package com.ru.alferatz.model.request
 
-class AuthRequest {
-    var phone: String = ""
-    var expectedRole: String = "USER"
-}
+data class AuthRequest(
+    val phone: String,
+    val expectedRole: String = "USER",
+    val name: String,
+    val chatId: Long
+)

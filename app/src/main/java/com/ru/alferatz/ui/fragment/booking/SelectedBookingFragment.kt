@@ -19,6 +19,7 @@ import com.ru.alferatz.model.request.AvailableTablesRequest
 import com.ru.alferatz.model.request.CreateBookingRequest
 import com.ru.alferatz.model.response.CreateBookingResponse
 import com.ru.alferatz.model.response.TableWithSlotsResponse
+import com.ru.alferatz.selectedDate
 import com.ru.alferatz.selectedDateAsLocalDate
 import com.ru.alferatz.selectedTime
 import com.ru.alferatz.userPhoneNumber
@@ -49,7 +50,7 @@ class SelectedBookingFragment : Fragment() {
     )
     private val listOfAvailableTables: ArrayList<TableDto> = ArrayList()
 
-//        private val listOfAvailableTimeIntervals = listOf(
+    //        private val listOfAvailableTimeIntervals = listOf(
 //        "00:30:00",
 //        "04:30:00",
 //        "06:30:00",
@@ -80,7 +81,7 @@ class SelectedBookingFragment : Fragment() {
         }
         viewModel = ViewModelProvider(this)[SelectedBookingViewModel::class.javaObjectType]
         val request = AvailableTablesRequest(selectedDateAsLocalDate, tableCapacity)
-        viewModel.getAvailableTables(request)
+        viewModel.getAvailableTables(tableCapacity, selectedDateAsLocalDate)
             .observe(requireActivity()) { response: TableWithSlotsResponse ->
                 val availableTablesForCurrentTable: ArrayList<TableDto> =
                     response.tables.filter { i -> i.name == tableName } as ArrayList<TableDto>

@@ -5,8 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.ru.alferatz.model.request.BookingByUserRequest
 import com.ru.alferatz.model.request.BookingRequest
+import com.ru.alferatz.model.request.CancelBookingRequest
 import com.ru.alferatz.model.request.CreateBookingRequest
 import com.ru.alferatz.model.response.BookingResponse
+import com.ru.alferatz.model.response.CancelBookingResponse
 import com.ru.alferatz.model.response.CreateBookingResponse
 import com.ru.alferatz.network.ApiClient
 import com.ru.alferatz.network.BookingService
@@ -58,7 +60,6 @@ class BookingRepository {
             .enqueue(object : Callback<CreateBookingResponse> {
                 override fun onFailure(@NonNull call: Call<CreateBookingResponse>, t: Throwable) {
                     data.value = null
-                    var qwe = ""
                 }
 
                 override fun onResponse(
@@ -66,7 +67,24 @@ class BookingRepository {
                     @NonNull response: Response<CreateBookingResponse>
                 ) {
                     data.value = response.body()
-                    var qwe = ""
+                }
+            })
+        return data
+    }
+
+    fun cancelBooking(request: CancelBookingRequest): LiveData<CancelBookingResponse> {
+        val data: MutableLiveData<CancelBookingResponse> = MutableLiveData()
+        bookingService.cancelBooking(request)
+            .enqueue(object : Callback<CancelBookingResponse> {
+                override fun onFailure(@NonNull call: Call<CancelBookingResponse>, t: Throwable) {
+                    data.value = null
+                }
+
+                override fun onResponse(
+                    @NonNull call: Call<CancelBookingResponse>,
+                    @NonNull response: Response<CancelBookingResponse>
+                ) {
+                    data.value = response.body()
                 }
             })
         return data

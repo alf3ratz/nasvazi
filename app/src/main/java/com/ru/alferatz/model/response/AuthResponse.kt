@@ -1,6 +1,4 @@
 package com.ru.alferatz.model.response
 
-class AuthResponse {
-    var status: String = ""
-    var code: Int = 0
-}
+data class AuthResponse(val status:String, val code:Long, val userId:Long)
+

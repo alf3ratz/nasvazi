@@ -26,7 +26,7 @@
             android:id="@+id/viewSupporter"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_10sdp"
-            app:layout_constraintTop_toBottomOf="@id/table_image" />
+            app:layout_constraintTop_toBottomOf="@id/table_image_container" />
 
         <View
             android:id="@+id/viewBackground"
@@ -37,15 +37,28 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="@id/date_text" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/table_image"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/table_image_container"
             android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="@dimen/_85sdp"
+            android:background="@drawable/container_background"
             android:layout_marginStart="@dimen/_10sdp"
-            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:padding="@dimen/_1sdp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-<!--        android:text="@{`Дата: `+currentBooking.startTime.toString()}"-->
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/table_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--        android:text="@{`Дата: `+currentBooking.startTime.toString()}"-->
 
         <TextView
             android:id="@+id/date_text"
@@ -60,8 +73,8 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_13ssp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/table_image"
-            app:layout_constraintTop_toTopOf="@id/table_image" />
+            app:layout_constraintStart_toEndOf="@id/table_image_container"
+            app:layout_constraintTop_toTopOf="@id/table_image_container" />
 
         <TextView
             android:id="@+id/table_number"

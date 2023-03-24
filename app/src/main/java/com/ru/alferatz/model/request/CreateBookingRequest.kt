@@ -8,5 +8,6 @@ data class CreateBookingRequest(
     val participants: Long,
     val tableName: String,
     val timeFrom: LocalDateTime,
-    val comment: String?
+    val comment: String?,
+    val platform: String = "ANDROID"
 )

@@ -5,5 +5,5 @@ import java.time.LocalDateTime
 data class TableDto(
     val name: String,
     val capacity: Long,
-    var availableStartTimes: List<LocalDateTime>
+    var availableStartTimes: List<LongArray>
 )

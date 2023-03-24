@@ -96,6 +96,7 @@ class BookingFragment : Fragment(), BookingListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        activityBinding.bottomNav.visibility = View.VISIBLE
         bookingEntityList = createBookingsList()
         binding = FragmentBookingBinding.inflate(inflater, container, false)
         bookingAdapter = BookingAdapter(
@@ -214,10 +215,6 @@ class BookingFragment : Fragment(), BookingListener {
 //            }
 //        }
 //    }
-
-    fun findTableNameById(tableId: Long): String {
-        return allTableEntityList.find { i -> i.id == tableId }!!.name
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
