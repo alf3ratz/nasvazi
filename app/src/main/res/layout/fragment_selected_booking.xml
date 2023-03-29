@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:background="@drawable/create_booking_background"
+            android:background="@drawable/top_corners_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

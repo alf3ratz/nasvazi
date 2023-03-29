@@ -88,8 +88,8 @@ class TimeTableAdapter(
             .text = listOfTimeIntervals[position]
         val statusIcon = holder.itemView.findViewById<ImageView>(R.id.time_status_icon)
         when (listOfAvailableIntervals.contains(listOfTimeIntervals[position])) {
-            true -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_green))
-            false -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_red))
+            false -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_green))
+            true -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_red))
             else -> statusIcon.setColorFilter(context.resources.getColor(com.ru.alferatz.R.color.color_yellow))
         }
         holder.itemView.apply {

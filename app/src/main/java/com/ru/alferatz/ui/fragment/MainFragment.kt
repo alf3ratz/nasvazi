@@ -37,7 +37,7 @@ class MainFragment : Fragment() {
         navController = navHostFragment.navController
 //        binding!!.bottomNavMain.setupWithNavController(navController)
         NavigationUI.setupWithNavController(binding!!.bottomNavMain,
-            navController);
+            navController)
         return binding!!.root
     }
 

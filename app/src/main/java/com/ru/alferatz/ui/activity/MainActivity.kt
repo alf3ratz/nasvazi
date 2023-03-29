@@ -16,6 +16,7 @@ import com.ru.alferatz.databinding.ActivityMainBinding
 import com.ru.alferatz.ui.fragment.AuthFragment
 import com.ru.alferatz.ui.fragment.currentbooking.CurrentBookingFragment
 import com.ru.alferatz.ui.fragment.InfoFragment
+import com.ru.alferatz.ui.fragment.UserInfoFragment
 import com.ru.alferatz.ui.fragment.booking.BookingFragment
 import java.security.InvalidParameterException
 
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_main -> BookingFragment()
                 R.id.action_request -> CurrentBookingFragment()
                 R.id.action_info -> InfoFragment()
+                R.id.action_user_info->UserInfoFragment()
                 else -> throw InvalidParameterException()
             }
             if (oldId != -1 || oldId != it.itemId) {
@@ -76,18 +78,10 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun isCurrentUserSignedOut(): Boolean {
-//        val user = Firebase.auth.currentUser
-//        return user == null
         val appSettingPrefs: SharedPreferences = getSharedPreferences("AppSettingPrefs", 0)
         return !appSettingPrefs.getBoolean("signIn", false)
     }
 
-//    private fun setUpBottomNav() {
-//        val bottomNavBar by lazy {
-//            binding!!.bottomNav
-//        } //findViewById<BottomNavigationView>(R.id.bottom_nav)
-//        bottomNavBar.setupWithNavController(navController)
-//    }
 
 
 }

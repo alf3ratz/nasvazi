@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.ru.alferatz.adapter.CurrentBookingTableAdapter
 import com.ru.alferatz.allTableEntityList
+import com.ru.alferatz.currentUserId
 import com.ru.alferatz.databinding.FragmentCurrentBookingBinding
 import com.ru.alferatz.enums.BookingStatus
 import com.ru.alferatz.model.dto.BookingDto
@@ -63,7 +64,7 @@ class CurrentBookingFragment : Fragment() {
     }
 
     private fun getCurrentBooking() {
-        viewModel.getBookingByUser(34L).observe(requireActivity()) { response: BookingResponse ->
+        viewModel.getBookingByUser(currentUserId).observe(requireActivity()) { response: BookingResponse ->
                 bookingByUser =
                     response.bookings.filter { i -> i.status!! == BookingStatus.CREATED || i.status == BookingStatus.CONFIRMED } as ArrayList<BookingDto>
                 bookingByUser.apply {

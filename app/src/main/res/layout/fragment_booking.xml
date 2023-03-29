@@ -51,7 +51,7 @@
                 android:id="@+id/timePager"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/_70sdp"
                 android:orientation="horizontal"
                 android:paddingStart="@dimen/_80sdp"
                 android:paddingEnd="@dimen/_80sdp"

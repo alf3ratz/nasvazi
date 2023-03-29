@@ -1,10 +1,14 @@
 package com.ru.alferatz.util
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import java.lang.Exception
 
-
-//@BindingAdapter("app:imageUrl")
+//@BindingAdapter("android:imageUrl")
 //fun setImageUrl(imageView: ImageView, URL: String) {
 //    try {
 //        Picasso.get().load(URL).noFade().into(imageView, object : Callback {
@@ -18,8 +22,4 @@ import androidx.databinding.BindingAdapter
 //    } catch (e: Exception) {
 //    }
 //}
-//
-//@BindingAdapter("android:src")
-//fun setIcon(view: ImageView, drawable: Int) {
-//    view.setImageResource(drawable)
-//}
+
